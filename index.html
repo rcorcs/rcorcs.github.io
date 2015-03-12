@@ -1,1 +1,36 @@
-Page under devopment
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8" />
+	<title>ROCHA, Rodrigo C. O.</title>
+
+   <script src="jslib.js"></script>
+   <script src="bot.js"></script>
+   <style>
+      canvas {
+         border:thin solid gray;
+      }
+      #command {
+         width:530px;
+      }
+   </style>
+</head>
+
+<body>   
+	<p>Web site currently under construction.</br>
+	by ROCHA, Rodrigo C. O.</p>
+   <canvas id="screen" width="1200" height="600" ></canvas>
+   <br/>
+	Width: <input type="text" name="width" id="width" value="600"></input>
+	Height: <input type="text" name="height" id="height" value="500"></input>
+   <button type="button" onclick="setup(); play();">Setup</button>
+
+   <br/>
+	Probability of Having Life: <input type="text" name="probLife" id="probLife" value="0.15"></input>
+   <button type="button" onclick="play();">Play</button>
+</body>
+	
+</html>
+<script>
+function main(){setup();play();canvas.paint();setInterval(loop,200)}function play(){probLife=parseFloat(document.getElementById("probLife").value);map=createWorld(probLife)}function setup(){document.getElementById("screen").width=parseInt(document.getElementById("width").value);document.getElementById("screen").height=parseInt(document.getElementById("height").value);n=parseInt(document.getElementById("screen").width)/10;m=parseInt(document.getElementById("screen").height)/10}function createWorld(){var e=new Array;var t=n*m;for(var r=0;r<t;r++){if(Math.random()<probLife){e[r]=true}else{e[r]=false}}return e}function getElement(e,t,n){return e[t*m+n]}function setElement(e,t,n,r){e[t*m+n]=r}function countNeighbours(e,t,r){var i=0;if(t>0){if(getElement(e,t-1,r)){i++}if(r>0&&getElement(e,t-1,r-1)){i++}if(r<m-1&&getElement(e,t-1,r+1)){i++}}if(t<n-1){if(getElement(e,t+1,r)){i++}if(r>0&&getElement(e,t+1,r-1)){i++}if(r<m-1&&getElement(e,t+1,r+1)){i++}}if(r>0&&getElement(e,t,r-1)){i++}if(r<m-1&&getElement(e,t,r+1)){i++}return i}function nextGeneration(e){var t=new Array;for(var r=0;r<n;r++){for(var i=0;i<m;i++){var s=countNeighbours(e,r,i);if(getElement(e,r,i)){if(s<2){setElement(t,r,i,false)}else if(s<=3){setElement(t,r,i,true)}else{setElement(t,r,i,false)}}else{if(s==3){setElement(t,r,i,true)}else{setElement(t,r,i,false)}}}}return t}function loop(){map=nextGeneration(map);canvas.paint()}window.onload=main;var canvas=new canvas_2d("screen");var m=0;var n=0;var probLife=0;var map;canvas.paint=function(){this.erase();var e=10;for(var t=0;t<n;t++){for(var r=0;r<m;r++){if(getElement(map,t,r)){canvas.context.fillStyle="#5e5"}else{canvas.context.fillStyle="#fff"}canvas.context.fillRect(t*e,r*e,e,e);if(getElement(map,t,r)){canvas.context.strokeStyle="#000"}else{canvas.context.strokeStyle="#ddd"}canvas.context.strokeRect(t*e,r*e,e,e)}}}
+</script>
