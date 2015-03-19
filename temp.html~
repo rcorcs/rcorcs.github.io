@@ -40,7 +40,7 @@
             <li role="presentation"><a href="#">Contact</a></li>
           </ul>
         </nav>
-        <h2 class="text-muted">Rodrigo Rocha</h2>
+        <h3 class="text-muted">Rodrigo Rocha</h3>
       </div>
       <div class="entry">
         <p><h3>Education</h3></p>
