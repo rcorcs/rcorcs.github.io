@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Rodrigo Caetano Rocha">
     <link rel="icon" href="../../favicon.ico">
 
     <title>Rodrigo Rocha</title>
@@ -35,10 +35,12 @@
         <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="#">About</a></li>
+            <li role="presentation"><a href="pages/publications.html">Publications</a></li>
+            <li role="presentation"><a href="#">Projects</a></li>
             <li role="presentation"><a href="#">Contact</a></li>
           </ul>
         </nav>
-        <h3 class="text-muted">Rodrigo Rocha</h3>
+        <h2 class="text-muted">Rodrigo Rocha</h2>
       </div>
       <div class="entry">
         <p><h3>Education</h3></p>
@@ -55,8 +57,8 @@
         Average Grade – 91.61 <br/>
 	<small>Outstanding Student Award (SBC), Merit Medal of Honour (PUC Minas)</small>
 	</p>
-        <details>
-	<summary>show more</summary>
+        <!--details>
+	<summary>show more</summary-->
         <p><h3>Awards</h3></p>
         <p align="justify">
 	<strong>Outstanding Student in the B.S. in Computer Science</strong>,<br/>
@@ -81,7 +83,7 @@
 		<li>Graph Theory</li>
 		<li>Abstract Algebra</li>
 	</ul>
-	</details>
+	<!--/details-->
       </div>
       
       <footer class="footer">
