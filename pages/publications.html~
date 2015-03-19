@@ -43,47 +43,27 @@
         <h3 class="text-muted">Rodrigo Rocha</h3>
       </div>
       <div class="entry">
-        <p><h3>Education</h3></p>
+                <p><h3>Published papers</h3></p>
+
         <p align="justify">
-	<strong>Master’s Degree in Computer Science</strong>, Universidade Federal de Minas Gerais<br/>
-	Belo Horizonte, Minas Gerais -- Brazil <br/>
-        Average Grade – 93.60 <br/>
-	<small>CAPES Scholarship</small>
+	<strong>Watershed reengineering: making streams programmable</strong><br/>
+	Rodrigo Caetano Rocha, Renato Ferreira, Wagner Meira, Dorgival Guedes<br/>
+        SBAC-PAD 2014 - Workshop on Parallel and Distributed Computing for Big Data Applications (WPBA)
 	</p>
 
 	<p align="justify">
-	<strong>Bachelor of Computer Science</strong>, Pontifícia Universidade Católica de Minas Gerais<br/>
-	Belo Horizonte, Minas Gerais -- Brazil <br/>
-        Average Grade – 91.61 <br/>
-	<small>Outstanding Student Award (SBC), Merit Medal of Honour (PUC Minas)</small>
-	</p>
-        <!--details>
-	<summary>show more</summary-->
-        <p><h3>Awards</h3></p>
-        <p align="justify">
-	<strong>Outstanding Student in the B.S. in Computer Science</strong>,<br/>
-	Brazilian Society of Computer Science (Sociedade Brasileira de Computação – SBC)
-	</p>
-        <p align="justify">
-	<strong>Merit Medal of Honour</strong>,<br/>
-	Pontifícia Universidade Católica de Minas Gerais (PUC Minas)
-	</p>
-	<p align="justify">
-	<strong>Academic Honour Mentionee in the 1st semester of 2009</strong>,<br/>
-	Pontifícia Universidade Católica de Minas Gerais (PUC Minas)
+	<strong>SMTD: Uma aplicação de Redes Definidas por Software no contexto de Redes Domésticas</strong><br/>
+	Rodrigo C. O. Rocha, Humberto T. Marques Neto, Dorgival Guedes<br/>
+        SBRC 2013 - Workshop de Pesquisa Experimental da Internet do Futuro (WPEIF)
 	</p>
 
-        <p><h3>Research Interests</h3></p>
-        <ul>
-		<li>Parallel Programming</li>
-		<li>High-Performance Computing</li>
-		<li>Data-Intensive Computing (a.k.a. Big Data)</li>
-		<li>Machine Learning</li>
-		<li>Data Mining</li>
-		<li>Graph Theory</li>
-		<li>Abstract Algebra</li>
-	</ul>
-	<!--/details-->
+        <p><h3>Preprints</h3></p>
+
+	<p align="justify">
+	<strong>Distributed cycle detection in large-scale sparse graphs</strong><br/>
+	Rodrigo Caetano Rocha, Bhalchandra D. Thatte
+	</p>
+        
       </div>
       
       <footer class="footer">
