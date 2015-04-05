@@ -78,6 +78,13 @@ body {
   }
 }
 
+p.justified {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/*
 details[open] summary {
     display: none;
 }
+*/
