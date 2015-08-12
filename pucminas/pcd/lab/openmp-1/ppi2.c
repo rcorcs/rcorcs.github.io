@@ -8,6 +8,7 @@ int main(){
 	double x, pi, sum=0.0;
 	step = 1.0/(double)num_steps;
 	
+    //efficient parallel for using the reduction construction 
 	#pragma omp parallel for reduction(+:sum) private(x)
 	for(i=0; i<num_steps; i++){
 		x = (i + 0.5)*step;
