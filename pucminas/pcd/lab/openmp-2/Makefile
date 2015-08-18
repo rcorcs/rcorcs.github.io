@@ -2,6 +2,9 @@ CFLAGS = -fopenmp -O3
 
 all: fib sections tasks
 
+basico: basico.c
+	$(CXX) basico.c -o basico $(CFLAGS)
+
 fib: fib.c
 	$(CXX) fib.c -o fib $(CFLAGS)
 
