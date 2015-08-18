@@ -1,16 +1,14 @@
 
 #include<stdio.h>
 
-int fib(int n){
+long fib(long n){
 	if(n<0) return 0;
 	else if(n==1) return 1;
 	else return fib(n-1)+fib(n-2);
 }
 
 int main(){
-	int n = 45;
-
-	printf("fib(%d) = %d\n", n, fib(n));
-
+	long n = 50;
+	printf("fib(%ld) = %ld\n", n, fib(n));
 	return 0;
 }
