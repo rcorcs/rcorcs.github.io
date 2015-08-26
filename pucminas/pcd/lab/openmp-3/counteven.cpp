@@ -11,14 +11,17 @@ int main(int argc, char **argv){
 
     srand(time(NULL));
     
+    #pragma omp parallel for
     for(int i = 0; i<n; i++){
         a[i] = rand()%n;
     }
     
+    #pragma omp parallel for
     for(int i = 0; i<n; i++){
         even[i] = (a[i]%2==0)?1:0;
     }
 
+    #pragma omp parallel for reduction(+:count)
     for(int i = 0; i<n; i++){
         count += even[i];
     }

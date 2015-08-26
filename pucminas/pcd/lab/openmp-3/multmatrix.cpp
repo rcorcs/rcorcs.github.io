@@ -19,14 +19,17 @@ int main(){
 	srand(time(NULL));
 
 	//atribui valores aos vetores
+    #pragma omp parallel for
 	for(int h = 0; h<a.height(); h++)
 		for(int w = 0; w<a.width(); w++)
 			a(h,w) = rand()%10;
 
+    #pragma omp parallel for
 	for(int h = 0; h<b.height(); h++)
 		for(int w = 0; w<b.width(); w++)
 			b(h,w) = rand()%10;
 
+    #pragma omp parallel for
 	for(int h = 0; h<c.height(); h++)
 		for(int w = 0; w<c.width(); w++)
 			c(h,w) = 0;
@@ -49,7 +52,9 @@ int main(){
 
 		printf("\n");
 	}
+    
 	//realiza a multiplicacao
+    #pragma omp parallel for
 	for(int h = 0; h<a.height(); h++)
 		for(int w = 0; w<b.width(); w++)
 			for(int k = 0; k<a.width(); k++)
