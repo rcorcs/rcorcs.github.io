@@ -3,6 +3,7 @@
  * Professor: Rodrigo Caetano Rocha
  * Topico: Estruturas de Dados de Digrafos.
  */
+import java.util.List;
 
 /**
  * Classe que implementa um grafo direcionado, ou digrafo.
@@ -38,6 +39,12 @@ public abstract class Digrafo {
 	public abstract int numArestas();
 
 	/**
+	 * Obtem os vizinhos de um dado vertice u.
+    * @return conjunto de vizinhos do vertice u.
+	 */
+	public abstract List<Integer> vizinhos(int u);
+
+	/**
 	 * Verifica se existe algum loop no Digrafo.
     * @return true caso existir algum loop em qualquer vertice ou false caso contrario.
 	 */
@@ -56,12 +63,5 @@ public abstract class Digrafo {
     * @return grau de entrada do vertice u.
 	 */
 	public abstract int grauEntrada(int u);
-
-	/**
-	 * Verifica se existe algum caminho com origem no vertice u e destino em v.
-    * Os vertices u e v nao sao necessariamente adjacentes.
-    * @return true caso existir algum de u para v ou false caso contrario.
-	 */
-	public abstract boolean existeCaminho(int u, int v);
 
 }

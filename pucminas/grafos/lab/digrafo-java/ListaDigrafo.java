@@ -76,6 +76,14 @@ public class ListaDigrafo extends Digrafo {
 	}
 
 	/**
+	* Obtem os vizinhos de um dado vertice u.
+    * @return conjunto de vizinhos do vertice u.
+	*/
+	public List<Integer> vizinhos(int u){
+		return adj[u];
+	}
+
+	/**
 	 * Verifica se existe algum loop no Digrafo.
     * @return true caso existir algum loop em qualquer vertice ou false caso contrario.
 	 */
@@ -103,17 +111,6 @@ public class ListaDigrafo extends Digrafo {
 		//FAZER
 		return 0; //resposta temporaria
 	}
-
-	/**
-	 * Verifica se existe algum caminho com origem no vertice u e destino em v.
-    * Os vertices u e v nao sao necessariamente adjacentes.
-    * @return true caso existir algum de u para v ou false caso contrario.
-	 */
-	public boolean existeCaminho(int u, int v){
-		//FAZER
-		return false; //resposta temporaria
-	}
-
 
 	public void removerArestasParalelas(){
 		for(int u = 0; u<numVertices(); u++){

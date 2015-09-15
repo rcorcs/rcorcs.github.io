@@ -4,6 +4,8 @@
  * Topico: Estruturas de Dados de Digrafos;
  *         Matriz de adjacencias.
  */
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Classe que implementa um grafo direcionado, ou digrafo.
@@ -71,7 +73,21 @@ public class MatrizDigrafo extends Digrafo {
 		}
 		return arestas;
 	}
-
+	
+	/**
+	* Obtem os vizinhos de um dado vertice u.
+    * @return conjunto de vizinhos do vertice u.
+	*/
+	public List<Integer> vizinhos(int u){
+		List<Integer> resp = new ArrayList<Integer>();
+		for(int v = 0; v<numVertices(); v++){
+			if(existeAresta(u,v)){
+				resp.add(v);
+			}
+		}
+		return rep;
+	}
+	
 	/**
 	 * Verifica se existe algum loop no Digrafo.
     * @return true caso existir algum loop em qualquer vertice ou false caso contrario.
@@ -100,16 +116,5 @@ public class MatrizDigrafo extends Digrafo {
 		//FAZER
 		return 0; //resposta temporaria
 	}
-
-	/**
-	 * Verifica se existe algum caminho com origem no vertice u e destino em v.
-    * Os vertices u e v nao sao necessariamente adjacentes.
-    * @return true caso existir algum de u para v ou false caso contrario.
-	 */
-	public boolean existeCaminho(int u, int v){
-		//FAZER
-		return false; //resposta temporaria
-	}
-
 
 }
