@@ -30,7 +30,7 @@ int main(){
 	cudaMemcpy(dA, A, n*sizeof(float), cudaMemcpyHostToDevice);
 	cudaMemcpy(dB, B, n*sizeof(float), cudaMemcpyHostToDevice);	
 	
-	addvec<<<1,n>>>(C,A,B,n);
+	addvec<<<1,n>>>(dC,dA,dB,n);
 
 	//transfer the vector back to the host memory
 	cudaMemcpy(C, dC, n*sizeof(float), cudaMemcpyDeviceToHost);
