@@ -2,14 +2,10 @@
 
 #include <cuda.h>
 
-__device__ int mult(int val, int factor){
-	return val*factor;
-}
-
 __global__ void smult(int *dvec, int n, int factor){
 	int i = threadIdx.x;
 	if(i<n){
-		dvec[i] = mult(dvec[i], factor);
+		dvec[i] *= factor;
 	}
 }
 
@@ -24,6 +20,7 @@ int main(){
 
 	//transfer the host vector to the GPU memory
 	cudaMemcpy(dvec, vec, n*sizeof(int), cudaMemcpyHostToDevice);
+
 	for(int i = 0; i<n; i++)
 		vec[i] = 0;
 
