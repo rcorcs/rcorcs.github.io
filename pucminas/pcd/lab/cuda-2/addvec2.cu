@@ -1,5 +1,10 @@
-#include <stdio.h>
 
+/**
+PUC Minas
+Prof. Rodrigo Caetano Rocha
+**/
+
+#include <stdio.h>
 #include <cuda.h>
 
 __global__ void addvec(float *dst, float *src1, float *src2, int n){
