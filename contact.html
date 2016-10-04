@@ -12,6 +12,12 @@
     <title>Rodrigo Rocha</title>
 
     <script src="js/jquery-1.11.2.min.js"></script>
+    <script>
+     rand = Math.random();
+     if(rand<=0.40) $("img#profile-img").attr("src", "img/itacolomi.jpg");
+     else if(rand<=0.75) $("img#profile-img").attr("src", "img/bh.jpg");
+     else $("img#profile-img").attr("src", "img/bonn.jpg");
+    </script>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -88,10 +94,4 @@
   ga('create', 'UA-17085133-3', 'auto');
   ga('send', 'pageview');
 
-</script>
-<script>
-  rand = Math.random();
-  if(rand<=0.40) $("img#profile-img").attr("src", "img/itacolomi.jpg");
-  else if(rand<=0.75) $("img#profile-img").attr("src", "img/bh.jpg");
-  else $("img#profile-img").attr("src", "img/bonn.jpg");
 </script>
