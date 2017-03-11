@@ -10,7 +10,7 @@ var data = {
     {
       label: "Citations",
       backgroundColor: 'rgba(0, 0, 0, 0.1)',
-      borderColor: 'rgba(0, 0, 0, 0.1)',
+      borderColor: 'rgba(0, 0, 0, 0.4)',
       borderWidth: 1,
       data: [0, 0, 0, 5, 0],
     }]
