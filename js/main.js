@@ -5,14 +5,14 @@ var data = {
         backgroundColor: 'rgba(54, 162, 235, 0.4)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
-        data: [1, 1, 3, 5, 6],
+        data: [1, 1, 3, 5, 8],
     },
     {
       label: "Citations",
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
       borderColor: 'rgba(0, 0, 0, 0.4)',
       borderWidth: 1,
-      data: [0, 0, 0, 5, 4],
+      data: [0, 0, 0, 4, 7],
     }]
 };
 var options = {
@@ -21,7 +21,7 @@ var options = {
     scales: {
         yAxes: [{
             ticks: {
-                max: 6,
+                max: 8,
                 min: 0,
                 stepSize: 1,
             },
