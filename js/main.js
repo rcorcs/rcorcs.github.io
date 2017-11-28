@@ -12,7 +12,7 @@ var data = {
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
       borderColor: 'rgba(0, 0, 0, 0.4)',
       borderWidth: 1,
-      data: [0, 0, 0, 4, 8],
+      data: [0, 0, 0, 4, 9],
     }]
 };
 var options = {
@@ -21,7 +21,7 @@ var options = {
     scales: {
         yAxes: [{
             ticks: {
-                max: 8,
+                max: 10,
                 min: 0,
                 stepSize: 1,
             },
