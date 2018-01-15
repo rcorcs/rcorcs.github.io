@@ -1,18 +1,18 @@
 var data = {
-    labels: ["2013", "2014", "2015", "2016", "2017"],
+    labels: ["2013", "2014", "2015", "2016", "2017", "2018"],
     datasets: [{
         label: "Publications",
         backgroundColor: 'rgba(54, 162, 235, 0.4)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
-        data: [1, 1, 3, 5, 8],
+        data: [1, 1, 3, 5, 8, 2],
     },
     {
       label: "Citations",
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
       borderColor: 'rgba(0, 0, 0, 0.4)',
       borderWidth: 1,
-      data: [0, 0, 0, 4, 9],
+      data: [0, 0, 0, 4, 10, 0],
     }]
 };
 var options = {
