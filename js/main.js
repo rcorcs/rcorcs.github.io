@@ -5,14 +5,14 @@ var data = {
         backgroundColor: 'rgba(54, 162, 235, 0.4)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
-        data: [1, 1, 3, 5, 8, 2],
+        data: [1, 1, 3, 5, 8, 3],
     },
     {
       label: "Citations",
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
       borderColor: 'rgba(0, 0, 0, 0.4)',
       borderWidth: 1,
-      data: [0, 0, 0, 4, 10, 2],
+      data: [0, 0, 0, 4, 9, 9],
     }]
 };
 var options = {
