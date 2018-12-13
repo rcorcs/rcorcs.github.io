@@ -13,6 +13,6 @@ The inline keyword is a bad design choice, victim of technical limitations at th
 use the "static" keyword.
 
 #### Practice for C:
-* Don't use the ```c inline``` keyword (or read the full blog post).
+* Don't use the `inline`.{c} keyword (or read the full blog post).
 * If distinct functions must have the same name in different implementation files,
-use the ```c static``` keyword.
+use the `static`.{c} keyword.
