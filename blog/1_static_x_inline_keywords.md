@@ -16,6 +16,26 @@
 >---
 
 
+  
+Compilers normally operate on a single translation unit at
+a time. Each translation unit, which includes a single source
+file and its expanded headers, is compiled into a single native
+object file, and ultimately the linker combines multiple object
+files into a resulting binary or library. Optimizations are
+optionally applied within each translation unit (or module)
+during the compilation, at both the function scope and the
+module scope. The latter is referred to as Inter-Procedural
+Optimization (IPO). Function inlining [7][6] is a key IPO.
+However, normally a callee can only be inlined into its caller
+if they are defined in the same module.
+
+
+
+
+
+
+talk about inlining, optimization per compilation unit and how the inline keyword addresses this problem.
+
 talk about hand-optimizing programs.
 
 specialist programmer vs average programmer.
@@ -23,7 +43,7 @@ specialist programmer vs average programmer.
 https://www.quora.com/Are-compilers-really-better-than-human-at-code-optimization
 
 
-talk about inlining, optimization per compilation unit and how the inline keyword addresses this problem.
+
 
 then talk about link-time optimization.
 
