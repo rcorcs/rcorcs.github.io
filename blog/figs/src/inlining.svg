@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg6432"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="inlining.svg"
+   inkscape:export-filename="/home/rcor/Documents/rcorcs.github.io/blog/figs/inlining.png"
+   inkscape:export-xdpi="146.27451"
+   inkscape:export-ydpi="146.27451">
+  <defs
+     id="defs6434">
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend"
+       style="overflow:visible;"
+       inkscape:isstock="true">
+      <path
+         id="path7012"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;"
+       inkscape:isstock="true">
+      <path
+         id="path7006"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker7791"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="TriangleOutL">
+      <path
+         transform="scale(0.8)"
+         style="fill-rule:evenodd;stroke:#c3c3c3;stroke-width:1pt;stroke-opacity:1;fill:#c3c3c3;fill-opacity:1"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path7793" />
+    </marker>
+    <marker
+       inkscape:stockid="TriangleOutL"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="TriangleOutL"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         id="path7145"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.8)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="273.42188"
+     inkscape:cy="738.58696"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1855"
+     inkscape:window-height="1176"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata6437">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g7961"
+       transform="matrix(0.66967914,0,0,0.66967914,34.643909,76.731525)"
+       style="stroke-width:1.4932524;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:export-filename="/home/rcor/Documents/rcorcs.github.io/blog/figs/inlining.png"
+       inkscape:export-xdpi="146.27451"
+       inkscape:export-ydpi="146.27451">
+      <path
+         sodipodi:nodetypes="cccccc"
+         inkscape:connector-curvature="0"
+         id="path6982"
+         d="m 105.37959,114.1314 0.01,232.83928 178.18027,-0.003 0,-203.30428 -27.84414,-29.35601 z"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.4932524;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path6984"
+         d="m 255.67823,114.21953 0,29.88994 28.08031,0"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.4932524;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         ry="0"
+         y="216.28333"
+         x="129.57869"
+         height="65.659912"
+         width="147.48227"
+         id="rect6993"
+         style="opacity:1;fill:#b2d1ff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.4932524;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         style="opacity:1;fill:#9fe59f;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.4932524;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect6995"
+         width="147.62747"
+         height="46.876545"
+         x="129.50609"
+         y="152.21072"
+         ry="0" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path6997"
+         d="M 139.85714,251.29077 C 95.456423,249.21294 107.29762,220.87411 123.42857,204.8622"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.4932524;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleOutL)" />
+      <rect
+         ry="4.8028975"
+         y="246.4711"
+         x="140.37361"
+         height="9.6057949"
+         width="70.535294"
+         id="rect7765"
+         style="opacity:1;fill:#9fe59f;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.4932524;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <g
+       id="g7969"
+       transform="matrix(0.6696791,0,0,0.6696791,78.774597,76.731534)"
+       style="stroke-width:1.49325252;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:export-filename="/home/rcor/Documents/rcorcs.github.io/blog/figs/inlining.png"
+       inkscape:export-xdpi="146.27451"
+       inkscape:export-ydpi="146.27451">
+      <path
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.49325252;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 441.37959,114.1314 0.01,232.83928 178.18028,-0.003 0,-203.30428 -27.84414,-29.35601 z"
+         id="path7847"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccc" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.49325252;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 591.67823,114.21953 0,29.88994 28.08031,0"
+         id="path7849"
+         inkscape:connector-curvature="0" />
+      <rect
+         style="opacity:1;fill:#b2d1ff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.49325252;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect7777"
+         width="147.77927"
+         height="32.385471"
+         x="465.43018"
+         y="297.34909"
+         ry="0" />
+      <rect
+         ry="0"
+         y="152.21072"
+         x="465.5061"
+         height="46.876545"
+         width="147.62747"
+         id="rect7779"
+         style="opacity:1;fill:#9fe59f;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.49325252;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#c3c3c3;stroke-width:1.49325252;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker7791)"
+         d="M 475.85714,251.29077 C 431.45642,249.21294 443.29762,220.87411 459.42857,204.8622"
+         id="path7781"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cc" />
+      <rect
+         ry="0"
+         y="216.1424"
+         x="465.43774"
+         height="33.798904"
+         width="147.76411"
+         id="rect7789"
+         style="opacity:1;fill:#b2d1ff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.49325252;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         style="opacity:1;fill:#9fe59f;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1.49325252;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect7819"
+         width="147.62747"
+         height="46.876545"
+         x="465.5061"
+         y="250.21072"
+         ry="0" />
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:6, 2;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow1Mend)"
+       d="m 233.14286,231.12646 132.14286,0"
+       id="path7857"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/rcor/Documents/rcorcs.github.io/blog/figs/inlining.png"
+       inkscape:export-xdpi="146.27451"
+       inkscape:export-ydpi="146.27451" />
+    <text
+       xml:space="preserve"
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';text-indent:0;text-align:center;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:middle;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       x="295.22708"
+       y="221.58896"
+       id="text7897"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/rcor/Documents/rcorcs.github.io/blog/figs/inlining.png"
+       inkscape:export-xdpi="146.27451"
+       inkscape:export-ydpi="146.27451"><tspan
+         sodipodi:role="line"
+         id="tspan7899"
+         x="295.22708"
+         y="221.58896">After inlining</tspan></text>
+    <text
+       inkscape:export-ydpi="146.27451"
+       inkscape:export-xdpi="146.27451"
+       inkscape:export-filename="/home/rcor/Documents/rcorcs.github.io/blog/figs/inlining.png"
+       sodipodi:linespacing="125%"
+       id="text8101"
+       y="140.16039"
+       x="165.06044"
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';text-indent:0;text-align:center;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:middle;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       xml:space="preserve"><tspan
+         y="140.16039"
+         x="165.06044"
+         id="tspan8103"
+         sodipodi:role="line">Translation Unit</tspan></text>
+  </g>
+</svg>
