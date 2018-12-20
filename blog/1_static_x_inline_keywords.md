@@ -5,7 +5,7 @@
 > 
 >### TL;DR
 > 
-> The `inline` keyword does **not** force the function to always be actually inlined.
+> The `inline` keyword does **not** guarantee the function will actually be inlined.
 > 
 >#### Quick Practical Tips:
 >* Use a header file with declarations and have these functions defined only once in an  implementation file.
@@ -41,8 +41,30 @@ When inlining, the compiler must have access simultaneously to the both the
 caller function and the function being called (i.e., the callee).
 That is, the inliner benefits greatly from having the code of more functions at its disposal.
 
- 
-<img src="figs/inlining.png" width="300">
+<img src="figs/inlining.png" width="350">
+
+
+
+The inline specifier is a hint to the compiler that it should attempt to generate code for a call of fac()
+inline rather than laying down the code for the function once and then calling through the usual
+function call mechanism.
+
+To make inlining possible in the absence of unusually clever compilation and linking facilities,
+the definition – and not just the declaration – of an inline function must be in scope (§15.2). An
+inline specifier does not affect the semantics of a function. In particular, an inline function still has
+a unique address, and so do static variables (§12.1.8) of an inline function.
+If an inline function is defined in more than one translation unit (e.g., typically because it was
+defined in a header; §15.2.2), its definition in the different translation units must be identical.
+
+
+An inline function (§12.1.3, §16.2.8) must be defined identically in every translation unit in
+which it is used (§15.2.3). Consequently, the following example isn’t just bad taste; it is illegal:
+// file1.cpp:
+inline int f(int i) { return i; }
+// file2.cpp:
+inline int f(int i) { return i+1; }
+
+We keep inline function definitions consistent by using header files.
 
 
 

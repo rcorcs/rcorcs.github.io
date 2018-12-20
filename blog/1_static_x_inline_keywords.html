@@ -3,7 +3,7 @@
 <blockquote>
 <hr />
 <h3 id="tldr">TL;DR</h3>
-<p>The <code>inline</code> keyword does <strong>not</strong> force the function to always be actually inlined.</p>
+<p>The <code>inline</code> keyword does <strong>not</strong> force the function to be actually inlined.</p>
 <h4 id="quick-practical-tips">Quick Practical Tips:</h4>
 <ul>
 <li>Use a header file with declarations and have these functions defined only once in an implementation file.</li>
@@ -16,8 +16,8 @@
 <p>Traditionally, compilers operator on a single translation unit at a time, i.e., a single source file and its expanded headers. Each translation unit is compiled into an object file, and then the linker is responsible for combining multiple object files into a single binary. Optimisations are applied within each translation unit during the compilation. See the figure below:</p>
 <p><img src="figs/compilation-pipeline.png" width="250"></p>
 <p>Most of the classic optimisations are applied within the scope of a single function. This optimisations are not affected by changes in the translation unit external to the function itself. However, some optimisations are inter-procedural, such as function inlining. These inter-procedural optimisations are heavily affected by how many functions are available in a single translation unit. Ideally, all functions would be in a single translation unit, as we will see later when talking about link-time optimisation. In general, compiler optimisations benefit from having larger context, simply because more code offers more opportunities for improvement or more information that the compiler can use to prove certain properties of the code, allowing the compiler to transform the code without changing its semantics.</p>
-<p>When inlining, the compiler must have access simultaneously to the both the caller function and the function being called (i.e., the callee). That is, the inliner benefits greatly from having the code of more functions at its disposal. The figure below illustrates how function inlining works. Each coloured box represents a function and the black arrow a function call. When applying inline to a particular call-site, the call is replaced by a copy of the function body with the formal parameters being replaced by the corresponding actual arguments. The original callee function continues to exists unaltered.</p>
-<p><img src="figs/inlining.png" width="300"></p>
+<p>The figure below illustrates how function inlining works. Each coloured box represents a function and the black arrow a function call. When applying inline to a particular call-site, the call is replaced by a copy of the function body with the formal parameters being replaced by the corresponding actual arguments. The original callee function continues to exists unaltered. When inlining, the compiler must have access simultaneously to the both the caller function and the function being called (i.e., the callee). That is, the inliner benefits greatly from having the code of more functions at its disposal.</p>
+<p><img src="figs/inlining.png" width="350"></p>
 <p>talk about inlining, optimisation per compilation unit and how the inline keyword addresses this problem.</p>
 <p>talk about hand-optimizing programs.</p>
 <p>specialist programmer vs average programmer.</p>
@@ -25,33 +25,33 @@
 <p>then talk about link-time optimisation.</p>
 <p>practi</p>
 <p>File: <code>user1.c</code></p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#include &lt;stdio.h&gt;</span>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
 
 <span class="kw">inline</span> <span class="dt">void</span> foo() {
-  printf(<span class="st">&quot;This is the foo function.</span><span class="ch">\n</span><span class="st">&quot;</span>);
+  printf(<span class="st">&quot;This is the foo function.</span><span class="sc">\n</span><span class="st">&quot;</span>);
 }
 
 <span class="dt">int</span> fooUser1() {
   foo();
-  <span class="kw">return</span> <span class="dv">1</span>;
+  <span class="cf">return</span> <span class="dv">1</span>;
 }</code></pre></div>
 <p>File: <code>user2.c</code></p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#include &lt;stdio.h&gt;</span>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
 
 <span class="kw">inline</span> <span class="dt">void</span> foo() {
-  printf(<span class="st">&quot;This is the foo function.</span><span class="ch">\n</span><span class="st">&quot;</span>);
+  printf(<span class="st">&quot;This is the foo function.</span><span class="sc">\n</span><span class="st">&quot;</span>);
 }
 
 <span class="dt">int</span> fooUser2() {
   foo();
   foo();
-  <span class="kw">return</span> <span class="dv">2</span>;
+  <span class="cf">return</span> <span class="dv">2</span>;
 }</code></pre></div>
 <p>File: <code>main.c</code></p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#include &lt;stdio.h&gt;</span>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
 
 <span class="dt">void</span> foo() {
-  printf(<span class="st">&quot;This is the foo function.</span><span class="ch">\n</span><span class="st">&quot;</span>);
+  printf(<span class="st">&quot;This is the foo function.</span><span class="sc">\n</span><span class="st">&quot;</span>);
 }
 
 <span class="dt">int</span> fooUser1();
@@ -60,7 +60,7 @@
 <span class="dt">int</span> main() {
   fooUser1();
   fooUser2();
-  <span class="kw">return</span> <span class="dv">0</span>;
+  <span class="cf">return</span> <span class="dv">0</span>;
 }</code></pre></div>
 <blockquote>
 <h4 id="opinion">Opinion:</h4>
