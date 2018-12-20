@@ -41,7 +41,54 @@ When inlining, the compiler must have access simultaneously to the both the
 caller function and the function being called (i.e., the callee).
 That is, the inliner benefits greatly from having the code of more functions at its disposal.
 
-<img src="figs/inlining.png" width="350">
+<img src="figs/inlining.png">
+
+However, in most real programs, a function defined in one implementation file
+(translation unit) will be used in several other files.
+The figure below illustrates one such scenario.
+Because optimization is applied to one compilation unit at a time, the compiler
+is only able to inline a function call when the callee function is present in
+the same translation unit.
+In the remaining cases, the compiler is unable to inline a function call as it
+does not have access to the definition of the function being called as it is
+defined in a different translation unit.
+
+<img src="figs/inlining-across-file-0.png">
+
+A programmer can manually resolve that by copying the function definition to
+multiple implementation files where it is used.
+However, the compiler would normally raise a compilation error due to *multiple definitions*.
+Consider the example bellow:
+
+`file1.c`
+```C
+void foo() {}
+void bar() { foo(); }
+```
+`file2.c`
+```C
+void foo() {}
+void baz() { foo(); }
+```
+`main.c`
+```C
+int main() { return 0; }
+```
+If we compile these files with the command `clang *.c -o main`, we get the following error message:
+```
+/tmp/file2-d2d43e.o: In function `foo':
+file2.c:(.text+0x0): multiple definition of `foo'
+/tmp/file1-c68965.o:file1.c:(.text+0x0): first defined here
+```
+
+One way the programmer can avoid that is by defining the copies of the function as
+having a local linkage by using the `static` keyword.
+
+<img src="figs/inlining-across-file-1.png">
+
+
+<img src="figs/inlining-across-file-include-1.png">
+
 
 
 

@@ -3,7 +3,7 @@
 <blockquote>
 <hr />
 <h3 id="tldr">TL;DR</h3>
-<p>The <code>inline</code> keyword does <strong>not</strong> force the function to be actually inlined.</p>
+<p>The <code>inline</code> keyword does <strong>not</strong> guarantee the function will actually be inlined.</p>
 <h4 id="quick-practical-tips">Quick Practical Tips:</h4>
 <ul>
 <li>Use a header file with declarations and have these functions defined only once in an implementation file.</li>
@@ -17,7 +17,29 @@
 <p><img src="figs/compilation-pipeline.png" width="250"></p>
 <p>Most of the classic optimisations are applied within the scope of a single function. This optimisations are not affected by changes in the translation unit external to the function itself. However, some optimisations are inter-procedural, such as function inlining. These inter-procedural optimisations are heavily affected by how many functions are available in a single translation unit. Ideally, all functions would be in a single translation unit, as we will see later when talking about link-time optimisation. In general, compiler optimisations benefit from having larger context, simply because more code offers more opportunities for improvement or more information that the compiler can use to prove certain properties of the code, allowing the compiler to transform the code without changing its semantics.</p>
 <p>The figure below illustrates how function inlining works. Each coloured box represents a function and the black arrow a function call. When applying inline to a particular call-site, the call is replaced by a copy of the function body with the formal parameters being replaced by the corresponding actual arguments. The original callee function continues to exists unaltered. When inlining, the compiler must have access simultaneously to the both the caller function and the function being called (i.e., the callee). That is, the inliner benefits greatly from having the code of more functions at its disposal.</p>
-<p><img src="figs/inlining.png" width="350"></p>
+<p><img src="figs/inlining.png"></p>
+<p>However, in most real programs, a function defined in one implementation file (translation unit) will be used in several other files. The figure below illustrates one such scenario. Because optimization is applied to one compilation unit at a time, the compiler is only able to inline a function call when the callee function is present in the same translation unit. In the remaining cases, the compiler is unable to inline a function call as it does not have access to the definition of the function being called as it is defined in a different translation unit.</p>
+<p><img src="figs/inlining-across-file-0.png"></p>
+<p>A programmer can manually resolve that by copying the function definition to multiple implementation files where it is used. However, the compiler would normally raise a compilation error due to <em>multiple definitions</em>. Consider the example bellow:</p>
+<p><code>file1.c</code></p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> foo() {}
+<span class="dt">void</span> bar() { foo(); }</code></pre></div>
+<p><code>file2.c</code></p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> foo() {}
+<span class="dt">void</span> baz() { foo(); }</code></pre></div>
+<p><code>main.c</code></p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main() { <span class="kw">return</span> <span class="dv">0</span>; }</code></pre></div>
+<p>If we compile these files with the command <code>clang *.c -o main</code>, we get the following error message:</p>
+<pre><code>/tmp/file2-d2d43e.o: In function `foo&#39;:
+file2.c:(.text+0x0): multiple definition of `foo&#39;
+/tmp/file1-c68965.o:file1.c:(.text+0x0): first defined here</code></pre>
+<p>One way the programmer can avoid that is by defining the copies of the function as having a local linkage by using the <code>static</code> keyword.</p>
+<p><img src="figs/inlining-across-file-1.png"></p>
+<p><img src="figs/inlining-across-file-include-1.png"></p>
+<p>The inline specifier is a hint to the compiler that it should attempt to generate code for a call of fac() inline rather than laying down the code for the function once and then calling through the usual function call mechanism.</p>
+<p>To make inlining possible in the absence of unusually clever compilation and linking facilities, the definition – and not just the declaration – of an inline function must be in scope (§15.2). An inline specifier does not affect the semantics of a function. In particular, an inline function still has a unique address, and so do static variables (§12.1.8) of an inline function. If an inline function is defined in more than one translation unit (e.g., typically because it was defined in a header; §15.2.2), its definition in the different translation units must be identical.</p>
+<p>An inline function (§12.1.3, §16.2.8) must be defined identically in every translation unit in which it is used (§15.2.3). Consequently, the following example isn’t just bad taste; it is illegal: // file1.cpp: inline int f(int i) { return i; } // file2.cpp: inline int f(int i) { return i+1; }</p>
+<p>We keep inline function definitions consistent by using header files.</p>
 <p>talk about inlining, optimisation per compilation unit and how the inline keyword addresses this problem.</p>
 <p>talk about hand-optimizing programs.</p>
 <p>specialist programmer vs average programmer.</p>
@@ -25,33 +47,33 @@
 <p>then talk about link-time optimisation.</p>
 <p>practi</p>
 <p>File: <code>user1.c</code></p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#include &lt;stdio.h&gt;</span>
 
 <span class="kw">inline</span> <span class="dt">void</span> foo() {
-  printf(<span class="st">&quot;This is the foo function.</span><span class="sc">\n</span><span class="st">&quot;</span>);
+  printf(<span class="st">&quot;This is the foo function.</span><span class="ch">\n</span><span class="st">&quot;</span>);
 }
 
 <span class="dt">int</span> fooUser1() {
   foo();
-  <span class="cf">return</span> <span class="dv">1</span>;
+  <span class="kw">return</span> <span class="dv">1</span>;
 }</code></pre></div>
 <p>File: <code>user2.c</code></p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#include &lt;stdio.h&gt;</span>
 
 <span class="kw">inline</span> <span class="dt">void</span> foo() {
-  printf(<span class="st">&quot;This is the foo function.</span><span class="sc">\n</span><span class="st">&quot;</span>);
+  printf(<span class="st">&quot;This is the foo function.</span><span class="ch">\n</span><span class="st">&quot;</span>);
 }
 
 <span class="dt">int</span> fooUser2() {
   foo();
   foo();
-  <span class="cf">return</span> <span class="dv">2</span>;
+  <span class="kw">return</span> <span class="dv">2</span>;
 }</code></pre></div>
 <p>File: <code>main.c</code></p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="ot">#include &lt;stdio.h&gt;</span>
 
 <span class="dt">void</span> foo() {
-  printf(<span class="st">&quot;This is the foo function.</span><span class="sc">\n</span><span class="st">&quot;</span>);
+  printf(<span class="st">&quot;This is the foo function.</span><span class="ch">\n</span><span class="st">&quot;</span>);
 }
 
 <span class="dt">int</span> fooUser1();
@@ -60,7 +82,7 @@
 <span class="dt">int</span> main() {
   fooUser1();
   fooUser2();
-  <span class="cf">return</span> <span class="dv">0</span>;
+  <span class="kw">return</span> <span class="dv">0</span>;
 }</code></pre></div>
 <blockquote>
 <h4 id="opinion">Opinion:</h4>
