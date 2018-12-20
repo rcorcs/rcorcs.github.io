@@ -25,7 +25,7 @@ See the figure below:
 <img src="figs/compilation-pipeline.svg" width="250">
 
 Most of the classic optimisations are applied within the scope of a single function.
-This optimisations are not affected by changes in the translation unit external
+These optimisations are not affected by changes in the translation unit external
 to the function itself. 
 However, some optimisations are inter-procedural, such as function inlining.
 These inter-procedural optimisations are heavily affected by how many functions are available in a single translation unit.
