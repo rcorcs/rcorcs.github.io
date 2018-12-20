@@ -15,11 +15,11 @@
 > 
 >---
 
-Traditionally, compilers operator on a single translation unit at a time, i.e.,
+Traditionally, compilers operate on a single translation unit at a time, i.e.,
 a single source file and its expanded headers.
 Each translation unit is compiled into an object file, and then the linker 
 is responsible for combining multiple object files into a single binary.
-Optimisations are applied within each translation unit during the compilation.
+Optimisations are then applied within each translation unit during compilation.
 See the figure below:
 
 <img src="figs/compilation-pipeline.svg" width="250">
@@ -81,7 +81,11 @@ file2.c:(.text+0x0): multiple definition of `foo'
 /tmp/file1-c68965.o:file1.c:(.text+0x0): first defined here
 ```
 This error is detected during link time.
-Once each object file (`.o` ELF files) has been created, the linker read these
+Once each object file has been created by the back-end, the linker is responsible
+for combining all of them into a single executable.
+During this process, the linker identifies that there are multiple definitions
+of an *external symbol* a name conflict between
+read these
 files and identifies that a given symbol is defined in more than one of the
 object files being linked **[TODO: More details]**.
 One way the programmer can avoid that is by defining the copies of the function as
