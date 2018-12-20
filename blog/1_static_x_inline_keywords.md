@@ -80,7 +80,9 @@ If we compile these files with the command `clang *.c -o main`, we get the follo
 file2.c:(.text+0x0): multiple definition of `foo'
 /tmp/file1-c68965.o:file1.c:(.text+0x0): first defined here
 ```
-
+This error is detected during link time.
+Once each object file (`.o` ELF files) has been created, the linker read these
+files to ...
 One way the programmer can avoid that is by defining the copies of the function as
 having a local linkage by using the `static` keyword.
 
