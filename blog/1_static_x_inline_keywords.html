@@ -20,7 +20,7 @@
 <p><img src="figs/inlining.svg" width="320"></p>
 <p>However, in most real programs, a function defined in one implementation file (translation unit) will be used in several other files. The figure below illustrates one such scenario. Because optimization is applied to one compilation unit at a time, the compiler is only able to inline a function call when the callee function is present in the same translation unit. In the remaining cases, the compiler is unable to inline a function call as it does not have access to the definition of the function being called as it is defined in a different translation unit.</p>
 <p><img src="figs/inlining-across-file-0.svg"  width="550"></p>
-<p>A programmer can manually resolve that by copying the function definition to multiple implementation files where it is used. However, the compiler would normally raise a compilation error due to <em>multiple definitions</em>. Consider the example bellow:</p>
+<p>A programmer can manually resolve that by copying the function definition to multiple implementation files where it is used. However, the compiler would normally raise a compilation error due to <em>multiple definitions</em>. Consider the example below:</p>
 <p><code>file1.c</code></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> foo() {}
 <span class="dt">void</span> bar() { foo(); }</code></pre></div>
@@ -33,7 +33,8 @@
 <pre><code>/tmp/file2-d2d43e.o: In function `foo&#39;:
 file2.c:(.text+0x0): multiple definition of `foo&#39;
 /tmp/file1-c68965.o:file1.c:(.text+0x0): first defined here</code></pre>
-<p>This error is detected during link time. Once each object file has been created by the back-end, the linker is responsible for combining all of them into a single executable. During this process, the linker identifies that there are multiple definitions of an <em>external symbol</em> a name conflict between read these files and identifies that a given symbol is defined in more than one of the object files being linked <strong>[TODO: More details]</strong>. One way the programmer can avoid that is by defining the copies of the function as having a local linkage by using the <code>static</code> keyword.</p>
+<p>This error is detected during link time. Once each object file has been created by the back-end, the linker is responsible for combining all of them into a single executable. During this process, the linker identifies that there are multiple definitions of an <em>external symbol</em>, which means that they are conflicting symbols. At this point, the previous error is raised.</p>
+<p>One way the programmer can avoid that is by defining the copies of the function as having a local linkage by using the <code>static</code> keyword. That is, the copies will be only internal to their files, avoiding the previous conflict between external symbols. The example below can be compiled without any problem:</p>
 <p><code>file1.c</code></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> foo() {}
 <span class="dt">void</span> bar() { foo(); }</code></pre></div>

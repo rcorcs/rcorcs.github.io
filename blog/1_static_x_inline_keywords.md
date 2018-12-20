@@ -58,7 +58,7 @@ defined in a different translation unit.
 A programmer can manually resolve that by copying the function definition to
 multiple implementation files where it is used.
 However, the compiler would normally raise a compilation error due to *multiple definitions*.
-Consider the example bellow:
+Consider the example below:
 
 `file1.c`
 ```C
@@ -84,12 +84,14 @@ This error is detected during link time.
 Once each object file has been created by the back-end, the linker is responsible
 for combining all of them into a single executable.
 During this process, the linker identifies that there are multiple definitions
-of an *external symbol* a name conflict between
-read these
-files and identifies that a given symbol is defined in more than one of the
-object files being linked **[TODO: More details]**.
-One way the programmer can avoid that is by defining the copies of the function as
-having a local linkage by using the `static` keyword.
+of an *external symbol*, which means that they are conflicting symbols.
+At this point, the previous error is raised.
+
+One way the programmer can avoid that is by defining the copies of the function
+as having a local linkage by using the `static` keyword.
+That is, the copies will be only internal to their files, avoiding the previous
+conflict between external symbols.
+The example below can be compiled without any problem:
 
 `file1.c`
 ```C
