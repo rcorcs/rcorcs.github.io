@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="110.71mm" height="51.245mm" version="1.1" viewBox="0 0 392.29 181.58" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <defs>
+  <marker id="marker3294" overflow="visible" orient="auto">
+   <path transform="matrix(-.4 0 0 -.4 -4 0)" d="m0 0 5-5-17.5 5 17.5 5z" fill-rule="evenodd" stroke="#000" stroke-width="1pt"/>
+  </marker>
+  <marker id="marker7791" overflow="visible" orient="auto">
+   <path transform="scale(.8)" d="m5.77 0-8.65 5v-10z" fill="#c3c3c3" fill-rule="evenodd" stroke="#c3c3c3" stroke-width="1pt"/>
+  </marker>
+  <marker id="TriangleOutL" overflow="visible" orient="auto">
+   <path transform="scale(.8)" d="m5.77 0-8.65 5v-10z" fill-rule="evenodd" stroke="#000" stroke-width="1pt"/>
+  </marker>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(-150.47 -16.587)">
+  <g>
+   <g transform="matrix(.66968 0 0 .66968 83.215 -34.697)" stroke="#000" stroke-width="1.4933">
+    <g>
+     <path d="m105.38 114.13 0.01 232.84 178.18-3e-3v-203.3l-27.844-29.356z" fill="#fff" fill-rule="evenodd"/>
+     <path d="m255.68 114.22v29.89h28.08" fill="#fff" fill-rule="evenodd"/>
+     <rect x="129.58" y="216.28" width="147.48" height="65.66" ry="0" fill="#b2d1ff"/>
+     <rect x="129.51" y="152.21" width="147.63" height="46.877" ry="0" fill="#9fe59f"/>
+    </g>
+    <path d="m139.86 251.29c-44.401-2.0778-32.56-30.417-16.429-46.429" fill="none" marker-end="url(#TriangleOutL)"/>
+    <rect x="140.37" y="246.47" width="70.535" height="9.6058" ry="4.8029" fill="#9fe59f"/>
+   </g>
+   <g transform="matrix(.66968 0 0 .66968 127.35 -34.697)" stroke-width="1.4933">
+    <g stroke="#000">
+     <path d="m441.38 114.13 0.01 232.84 178.18-3e-3v-203.3l-27.844-29.356z" fill="#fff" fill-rule="evenodd"/>
+     <path d="m591.68 114.22v29.89h28.08" fill="none"/>
+     <rect x="465.43" y="297.35" width="147.78" height="32.385" ry="0" fill="#b2d1ff"/>
+     <rect x="465.51" y="152.21" width="147.63" height="46.877" ry="0" fill="#9fe59f"/>
+    </g>
+    <path d="m475.86 251.29c-44.401-2.0778-32.56-30.417-16.429-46.429" fill="none" marker-end="url(#marker7791)" stroke="#c3c3c3"/>
+    <rect x="465.44" y="216.14" width="147.76" height="33.799" ry="0" fill="#b2d1ff" stroke="#000"/>
+    <rect x="465.51" y="250.21" width="147.63" height="46.877" ry="0" fill="#9fe59f" stroke="#000"/>
+   </g>
+   <g>
+    <path d="m281.71 119.7h132.14" fill="none" marker-end="url(#marker3294)" stroke="#000" stroke-dasharray="6, 2" stroke-width="2"/>
+    <text x="343.79852" y="110.16039" color="#000000" color-rendering="auto" fill="#000000" font-family="'Latin Modern Roman'" image-rendering="auto" letter-spacing="0px" shape-rendering="auto" solid-color="#000000" stroke-width="1px" text-align="center" text-anchor="middle" text-rendering="auto" word-spacing="0px" style="isolation:auto;line-height:0%;mix-blend-mode:normal;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-transform:none;white-space:normal" xml:space="preserve"><tspan x="343.79852" y="110.16039" font-size="17.5px" style="line-height:1.25">Inlining</tspan></text>
+    <text x="213.63187" y="28.731813" color="#000000" color-rendering="auto" fill="#000000" font-family="'Latin Modern Roman'" image-rendering="auto" letter-spacing="0px" shape-rendering="auto" solid-color="#000000" stroke-width="1px" text-align="center" text-anchor="middle" text-rendering="auto" word-spacing="0px" style="isolation:auto;line-height:0%;mix-blend-mode:normal;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-transform:none;white-space:normal" xml:space="preserve"><tspan x="213.63187" y="28.731813" font-size="17.5px" style="line-height:1.25">Translation Unit</tspan></text>
+   </g>
+  </g>
+ </g>
+</svg>

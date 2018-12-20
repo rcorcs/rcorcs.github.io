@@ -22,7 +22,7 @@ is responsible for combining multiple object files into a single binary.
 Optimisations are applied within each translation unit during the compilation.
 See the figure below:
 
-<img src="figs/compilation-pipeline.png" width="250">
+<img src="figs/compilation-pipeline.svg" width="250">
 
 Most of the classic optimisations are applied within the scope of a single function.
 This optimisations are not affected by changes in the translation unit external
@@ -41,7 +41,7 @@ When inlining, the compiler must have access simultaneously to the both the
 caller function and the function being called (i.e., the callee).
 That is, the inliner benefits greatly from having the code of more functions at its disposal.
 
-<img src="figs/inlining.png">
+<img src="figs/inlining.svg" width="320">
 
 However, in most real programs, a function defined in one implementation file
 (translation unit) will be used in several other files.
@@ -53,7 +53,7 @@ In the remaining cases, the compiler is unable to inline a function call as it
 does not have access to the definition of the function being called as it is
 defined in a different translation unit.
 
-<img src="figs/inlining-across-file-0.png">
+<img src="figs/inlining-across-file-0.svg"  width="550">
 
 A programmer can manually resolve that by copying the function definition to
 multiple implementation files where it is used.
@@ -82,9 +82,26 @@ file2.c:(.text+0x0): multiple definition of `foo'
 ```
 This error is detected during link time.
 Once each object file (`.o` ELF files) has been created, the linker read these
-files to ...
+files and identifies that a given symbol is defined in more than one of the
+object files being linked **[TODO: More details]**.
 One way the programmer can avoid that is by defining the copies of the function as
 having a local linkage by using the `static` keyword.
+
+`file1.c`
+```C
+void foo() {}
+void bar() { foo(); }
+```
+`file2.c`
+```C
+static void foo() {}
+void baz() { foo(); }
+```
+`main.c`
+```C
+int main() { return 0; }
+```
+
 
 <img src="figs/inlining-across-file-1.png">
 
