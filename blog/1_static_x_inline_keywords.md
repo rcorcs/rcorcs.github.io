@@ -84,7 +84,7 @@ This error is detected during link time.
 Once each object file has been created by the back-end, the linker is responsible
 for combining all of them into a single executable.
 During this process, the linker identifies that there are multiple definitions
-of an *external symbol*, which means that they are conflicting symbols.
+of an *external symbol*, that is, the object files have conflicting symbols.
 At this point, the previous error is raised.
 
 One way the programmer can avoid that is by defining the copies of the function
