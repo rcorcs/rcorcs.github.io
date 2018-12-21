@@ -33,17 +33,116 @@
 <pre><code>/tmp/file2-d2d43e.o: In function `foo&#39;:
 file2.c:(.text+0x0): multiple definition of `foo&#39;
 /tmp/file1-c68965.o:file1.c:(.text+0x0): first defined here</code></pre>
-<p>This error is detected during link time. Once each object file has been created by the back-end, the linker is responsible for combining all of them into a single executable. During this process, the linker identifies that there are multiple definitions of an <em>external symbol</em>, which means that they are conflicting symbols. At this point, the previous error is raised.</p>
+<p>This error is detected during link time. Once each object file has been created by the back-end, the linker is responsible for combining all of them into a single executable. During this process, the linker identifies that there are multiple definitions of an <em>external symbol</em>, that is, the object files have conflicting symbols. At this point, the previous error is raised.</p>
 <p>One way the programmer can avoid that is by defining the copies of the function as having a local linkage by using the <code>static</code> keyword. That is, the copies will be only internal to their files, avoiding the previous conflict between external symbols. The example below can be compiled without any problem:</p>
 <p><code>file1.c</code></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> foo() {}
 <span class="dt">void</span> bar() { foo(); }</code></pre></div>
 <p><code>file2.c</code></p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">static</span> <span class="dt">void</span> foo() {}
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">static</span> <span class="dt">void</span> foo() {}   <span class="co">//changed to &#39;static&#39;</span>
 <span class="dt">void</span> baz() { foo(); }</code></pre></div>
 <p><code>main.c</code></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main() { <span class="cf">return</span> <span class="dv">0</span>; }</code></pre></div>
 <p><img src="figs/inlining-across-file-1.png"></p>
+<p><code>file1.c</code></p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> foo(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> a*b; }
+<span class="dt">int</span> bar(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> foo(a,b); }</code></pre></div>
+<p><code>file2.c</code></p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">static</span> <span class="dt">int</span> foo(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> a*b; }
+<span class="dt">int</span> apply(<span class="dt">int</span> (*f)(<span class="dt">int</span>,<span class="dt">int</span>), <span class="dt">int</span> b);
+<span class="dt">int</span> baz(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> foo(a,b) + apply(foo, b); }</code></pre></div>
+<p><code>main.c</code></p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> apply(<span class="dt">int</span> (*f)(<span class="dt">int</span>,<span class="dt">int</span>), <span class="dt">int</span> b) { <span class="cf">return</span> f(b,b); }
+<span class="dt">int</span> main() { <span class="cf">return</span> <span class="dv">0</span>; }</code></pre></div>
+<p><code>clang *.c -O2 -finline -o main</code></p>
+<p><code>llvm-objdump -D -print-imm-hex -no-show-raw-insn -x86-asm-syntax=intel main</code></p>
+<div class="sourceCode"><pre class="sourceCode nasm"><code class="sourceCode nasm"><span class="fu">foo:</span>
+<span class="fu">  400480:</span>       <span class="kw">imul</span>    <span class="kw">edi</span>, <span class="kw">esi</span>
+<span class="fu">  400483:</span>       <span class="kw">mov</span>     <span class="kw">eax</span>, <span class="kw">edi</span>
+<span class="fu">  400485:</span>       <span class="kw">ret</span>
+<span class="fu">  400486:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
+
+<span class="fu">bar:</span>
+<span class="fu">  400490:</span>       <span class="kw">imul</span>    <span class="kw">edi</span>, <span class="kw">esi</span>                <span class="co">; inlined call to foo</span>
+<span class="fu">  400493:</span>       <span class="kw">mov</span>     <span class="kw">eax</span>, <span class="kw">edi</span>
+<span class="fu">  400495:</span>       <span class="kw">ret</span>
+<span class="fu">  400496:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
+
+<span class="fu">baz:</span>
+<span class="fu">  4004a0:</span>       <span class="kw">push</span>    rbx
+<span class="fu">  4004a1:</span>       <span class="kw">mov</span>     <span class="kw">ebx</span>, <span class="kw">edi</span>
+<span class="fu">  4004a3:</span>       <span class="kw">imul</span>    <span class="kw">ebx</span>, <span class="kw">esi</span>                <span class="co">; inlined call to foo</span>
+<span class="fu">  4004a6:</span>       <span class="kw">mov</span>     <span class="kw">edi</span><span class="bn">, 0x4004c0           </span><span class="co">; points to foo copy at 0x4004c0</span>
+<span class="fu">  4004ab:</span>       <span class="kw">call</span><span class="bn">    0x20 </span>&lt;apply&gt;
+<span class="fu">  4004b0:</span>       <span class="kw">add</span>     <span class="kw">eax</span>, <span class="kw">ebx</span>
+<span class="fu">  4004b2:</span>       <span class="kw">pop</span>     rbx
+<span class="fu">  4004b3:</span>       <span class="kw">ret</span>
+<span class="fu">  4004b4:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
+
+<span class="fu">foo:</span>
+<span class="fu">  4004c0:</span>       <span class="kw">imul</span>    <span class="kw">edi</span>, <span class="kw">esi</span>
+<span class="fu">  4004c3:</span>       <span class="kw">mov</span>     <span class="kw">eax</span>, <span class="kw">edi</span>
+<span class="fu">  4004c5:</span>       <span class="kw">ret</span>
+<span class="fu">  4004c6:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
+
+<span class="fu">apply:</span>
+<span class="fu">  4004d0:</span>       <span class="kw">mov</span>     rax, rdi
+<span class="fu">  4004d3:</span>       <span class="kw">mov</span>     <span class="kw">edi</span>, <span class="kw">esi</span>
+<span class="fu">  4004d5:</span>       <span class="kw">jmp</span>     rax
+<span class="fu">  4004d7:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> [rax + rax]
+
+<span class="fu">main:</span>
+<span class="fu">  4004e0:</span>       <span class="kw">xor</span>     <span class="kw">eax</span>, <span class="kw">eax</span>
+<span class="fu">  4004e2:</span>       <span class="kw">ret</span>
+<span class="fu">  4004e3:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
+<span class="fu">  4004ed:</span>       <span class="kw">nop</span>     <span class="dt">dword</span> <span class="dt">ptr</span> [rax]</code></pre></div>
+<p>as shown below</p>
+<p><code>file1.c</code></p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> foo(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> a*b; }
+<span class="dt">int</span> bar(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> foo(a,b); }</code></pre></div>
+<p><code>file2.c</code></p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">inline</span> <span class="dt">int</span> foo(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> a*b; }    <span class="co">// changed to &#39;inline&#39; </span>
+<span class="dt">int</span> apply(<span class="dt">int</span> (*f)(<span class="dt">int</span>,<span class="dt">int</span>), <span class="dt">int</span> b);
+<span class="dt">int</span> baz(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> foo(a,b) + apply(foo, b); }</code></pre></div>
+<p><code>main.c</code></p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> apply(<span class="dt">int</span> (*f)(<span class="dt">int</span>,<span class="dt">int</span>), <span class="dt">int</span> b) { <span class="cf">return</span> f(b,b); }
+<span class="dt">int</span> main() { <span class="cf">return</span> <span class="dv">0</span>; }</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode nasm"><code class="sourceCode nasm"><span class="fu">foo:</span>
+<span class="fu">  400480:</span>       <span class="kw">imul</span>    <span class="kw">edi</span>, <span class="kw">esi</span>
+<span class="fu">  400483:</span>       <span class="kw">mov</span>     <span class="kw">eax</span>, <span class="kw">edi</span>
+<span class="fu">  400485:</span>       <span class="kw">ret</span>
+<span class="fu">  400486:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
+
+<span class="fu">bar:</span>
+<span class="fu">  400490:</span>       <span class="kw">imul</span>    <span class="kw">edi</span>, <span class="kw">esi</span>                <span class="co">; inlined call to foo</span>
+<span class="fu">  400493:</span>       <span class="kw">mov</span>     <span class="kw">eax</span>, <span class="kw">edi</span>
+<span class="fu">  400495:</span>       <span class="kw">ret</span>
+<span class="fu">  400496:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
+
+<span class="fu">baz:</span>
+<span class="fu">  4004a0:</span>       <span class="kw">push</span>    rbx
+<span class="fu">  4004a1:</span>       <span class="kw">mov</span>     <span class="kw">ebx</span>, <span class="kw">edi</span>
+<span class="fu">  4004a3:</span>       <span class="kw">imul</span>    <span class="kw">ebx</span>, <span class="kw">esi</span>                <span class="co">; inlined call to foo</span>
+<span class="fu">  4004a6:</span>       <span class="kw">mov</span>     <span class="kw">edi</span><span class="bn">, 0x400480           </span><span class="co">; points to unique foo</span>
+<span class="fu">  4004ab:</span>       <span class="kw">call</span><span class="bn">    0x10 </span>&lt;apply&gt;
+<span class="fu">  4004b0:</span>       <span class="kw">add</span>     <span class="kw">eax</span>, <span class="kw">ebx</span>
+<span class="fu">  4004b2:</span>       <span class="kw">pop</span>     rbx
+<span class="fu">  4004b3:</span>       <span class="kw">ret</span>
+<span class="fu">  4004b4:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
+<span class="fu">  4004be:</span>       <span class="kw">nop</span>
+
+<span class="fu">apply:</span>
+<span class="fu">  4004c0:</span>       <span class="kw">mov</span>     rax, rdi
+<span class="fu">  4004c3:</span>       <span class="kw">mov</span>     <span class="kw">edi</span>, <span class="kw">esi</span>
+<span class="fu">  4004c5:</span>       <span class="kw">jmp</span>     rax
+<span class="fu">  4004c7:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> [rax + rax]
+
+<span class="fu">main:</span>
+<span class="fu">  4004d0:</span>       <span class="kw">xor</span>     <span class="kw">eax</span>, <span class="kw">eax</span>
+<span class="fu">  4004d2:</span>       <span class="kw">ret</span>
+<span class="fu">  4004d3:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
+<span class="fu">  4004dd:</span>       <span class="kw">nop</span>     <span class="dt">dword</span> <span class="dt">ptr</span> [rax]</code></pre></div>
+<h3 id="pitfalls-and-good-practices">Pitfalls and Good Practices</h3>
 <p><img src="figs/inlining-across-file-include-1.png"></p>
 <p>The inline specifier is a hint to the compiler that it should attempt to generate code for a call of fac() inline rather than laying down the code for the function once and then calling through the usual function call mechanism.</p>
 <p>To make inlining possible in the absence of unusually clever compilation and linking facilities, the definition – and not just the declaration – of an inline function must be in scope (§15.2). An inline specifier does not affect the semantics of a function. In particular, an inline function still has a unique address, and so do static variables (§12.1.8) of an inline function. If an inline function is defined in more than one translation unit (e.g., typically because it was defined in a header; §15.2.2), its definition in the different translation units must be identical.</p>

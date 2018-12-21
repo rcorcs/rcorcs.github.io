@@ -100,7 +100,7 @@ void bar() { foo(); }
 ```
 `file2.c`
 ```C
-static void foo() {}
+static void foo() {}   //changed to 'static'
 void baz() { foo(); }
 ```
 `main.c`
@@ -108,13 +108,140 @@ void baz() { foo(); }
 int main() { return 0; }
 ```
 
-
 <img src="figs/inlining-across-file-1.png">
 
 
+`file1.c`
+```C
+int foo(int a, int b) { return a*b; }
+int bar(int a, int b) { return foo(a,b); }
+```
+`file2.c`
+```C
+static int foo(int a, int b) { return a*b; }
+int apply(int (*f)(int,int), int b);
+int baz(int a, int b) { return foo(a,b) + apply(foo, b); }
+```
+`main.c`
+```C
+int apply(int (*f)(int,int), int b) { return f(b,b); }
+int main() { return 0; }
+```
+
+`clang *.c -O2 -finline -o main`
+
+`llvm-objdump -D -print-imm-hex -no-show-raw-insn -x86-asm-syntax=intel main`
+
+```nasm
+foo:
+  400480:       imul    edi, esi
+  400483:       mov     eax, edi
+  400485:       ret
+  400486:       nop     word ptr cs:[rax + rax]
+
+bar:
+  400490:       imul    edi, esi                ; inlined call to foo
+  400493:       mov     eax, edi
+  400495:       ret
+  400496:       nop     word ptr cs:[rax + rax]
+
+baz:
+  4004a0:       push    rbx
+  4004a1:       mov     ebx, edi
+  4004a3:       imul    ebx, esi                ; inlined call to foo
+  4004a6:       mov     edi, 0x4004c0           ; points to foo copy at 0x4004c0
+  4004ab:       call    0x20 <apply>
+  4004b0:       add     eax, ebx
+  4004b2:       pop     rbx
+  4004b3:       ret
+  4004b4:       nop     word ptr cs:[rax + rax]
+
+foo:
+  4004c0:       imul    edi, esi
+  4004c3:       mov     eax, edi
+  4004c5:       ret
+  4004c6:       nop     word ptr cs:[rax + rax]
+
+apply:
+  4004d0:       mov     rax, rdi
+  4004d3:       mov     edi, esi
+  4004d5:       jmp     rax
+  4004d7:       nop     word ptr [rax + rax]
+
+main:
+  4004e0:       xor     eax, eax
+  4004e2:       ret
+  4004e3:       nop     word ptr cs:[rax + rax]
+  4004ed:       nop     dword ptr [rax]
+```
+
+
+
+as shown below
+
+`file1.c`
+```C
+int foo(int a, int b) { return a*b; }
+int bar(int a, int b) { return foo(a,b); }
+```
+`file2.c`
+```C
+inline int foo(int a, int b) { return a*b; }    // changed to 'inline' 
+int apply(int (*f)(int,int), int b);
+int baz(int a, int b) { return foo(a,b) + apply(foo, b); }
+```
+`main.c`
+```C
+int apply(int (*f)(int,int), int b) { return f(b,b); }
+int main() { return 0; }
+```
+
+
+```nasm
+foo:
+  400480:       imul    edi, esi
+  400483:       mov     eax, edi
+  400485:       ret
+  400486:       nop     word ptr cs:[rax + rax]
+
+bar:
+  400490:       imul    edi, esi                ; inlined call to foo
+  400493:       mov     eax, edi
+  400495:       ret
+  400496:       nop     word ptr cs:[rax + rax]
+
+baz:
+  4004a0:       push    rbx
+  4004a1:       mov     ebx, edi
+  4004a3:       imul    ebx, esi                ; inlined call to foo
+  4004a6:       mov     edi, 0x400480           ; points to unique foo
+  4004ab:       call    0x10 <apply>
+  4004b0:       add     eax, ebx
+  4004b2:       pop     rbx
+  4004b3:       ret
+  4004b4:       nop     word ptr cs:[rax + rax]
+  4004be:       nop
+
+apply:
+  4004c0:       mov     rax, rdi
+  4004c3:       mov     edi, esi
+  4004c5:       jmp     rax
+  4004c7:       nop     word ptr [rax + rax]
+
+main:
+  4004d0:       xor     eax, eax
+  4004d2:       ret
+  4004d3:       nop     word ptr cs:[rax + rax]
+  4004dd:       nop     dword ptr [rax]
+
+```
+
+
+### Pitfalls and Good Practices
+
+
+
 <img src="figs/inlining-across-file-include-1.png">
-
-
 
 
 The inline specifier is a hint to the compiler that it should attempt to generate code for a call of fac()
