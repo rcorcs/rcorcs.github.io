@@ -179,18 +179,18 @@ main:
 
 as shown below
 
-`file1.c`
+*file1.c*
 ```C
 int foo(int a, int b) { return a*b; }
 int bar(int a, int b) { return foo(a,b); }
 ```
-`file2.c`
+*file2.c*
 ```C
 inline int foo(int a, int b) { return a*b; }    // changed to 'inline' 
 int apply(int (*f)(int,int), int b);
 int baz(int a, int b) { return foo(a,b) + apply(foo, b); }
 ```
-`main.c`
+*main.c*
 ```C
 int apply(int (*f)(int,int), int b) { return f(b,b); }
 int main() { return 0; }
