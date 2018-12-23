@@ -55,22 +55,23 @@ defined in a different translation unit.
 
 <img src="figs/inlining-across-file-0.svg"  width="550">
 
-A programmer can manually resolve that by copying the function definition to
-multiple implementation files where it is used.
-However, the compiler would normally raise a compilation error due to *multiple definitions*.
+A programmer can work around this limitation by manually copying the function
+definition to multiple implementation files where it is used.
+However, if the function is simply copied to multiple files, the compiler would
+raise a compilation error due to *multiple definitions*.
 Consider the example below:
 
-`file1.c`
+*file1.c*
 ```C
 void foo() {}
 void bar() { foo(); }
 ```
-`file2.c`
+*file2.c*
 ```C
 void foo() {}
 void baz() { foo(); }
 ```
-`main.c`
+*main.c*
 ```C
 int main() { return 0; }
 ```
@@ -93,36 +94,46 @@ That is, the copies will be only internal to their files, avoiding the previous
 conflict between external symbols.
 The example below can be compiled without any problem:
 
-`file1.c`
+*file1.c*
 ```C
 void foo() {}
 void bar() { foo(); }
 ```
-`file2.c`
+*file2.c*
 ```C
 static void foo() {}   //changed to 'static'
 void baz() { foo(); }
 ```
-`main.c`
+*main.c*
 ```C
 int main() { return 0; }
 ```
 
+The `static` keyword allows local copies of a function to be present in
+multiple files, and therefore be potentially inlined.
+However, the compiler assumes that the internal `static` functions are distinct
+from the external function of same name, keeping all of them in the final binary.
+In particular, if if an internal function has no reference to it, then it is
+not included in the object file, otherwise it is kept in.
+References may still exists during code generation if its address is taken
+for indirect use or if there remaining explicit calls to it, for example,
+because inlining was not profitable in these specific call-sites.
+
 <img src="figs/inlining-across-file-1.png">
 
 
-`file1.c`
+*file1.c*
 ```C
 int foo(int a, int b) { return a*b; }
 int bar(int a, int b) { return foo(a,b); }
 ```
-`file2.c`
+*file2.c*
 ```C
 static int foo(int a, int b) { return a*b; }
 int apply(int (*f)(int,int), int b);
 int baz(int a, int b) { return foo(a,b) + apply(foo, b); }
 ```
-`main.c`
+*main.c*
 ```C
 int apply(int (*f)(int,int), int b) { return f(b,b); }
 int main() { return 0; }
@@ -176,21 +187,20 @@ main:
 ```
 
 
-
 as shown below
 
-*file1.c*  
+*file1.c*
 ```C
 int foo(int a, int b) { return a*b; }
 int bar(int a, int b) { return foo(a,b); }
 ```
-*file2.c*  
+*file2.c*
 ```C
 inline int foo(int a, int b) { return a*b; }    // changed to 'inline' 
 int apply(int (*f)(int,int), int b);
 int baz(int a, int b) { return foo(a,b) + apply(foo, b); }
 ```
-*main.c*  
+*main.c*
 ```C
 int apply(int (*f)(int,int), int b) { return f(b,b); }
 int main() { return 0; }

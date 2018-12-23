@@ -20,14 +20,14 @@
 <p><img src="figs/inlining.svg" width="320"></p>
 <p>However, in most real programs, a function defined in one implementation file (translation unit) will be used in several other files. The figure below illustrates one such scenario. Because optimization is applied to one compilation unit at a time, the compiler is only able to inline a function call when the callee function is present in the same translation unit. In the remaining cases, the compiler is unable to inline a function call as it does not have access to the definition of the function being called as it is defined in a different translation unit.</p>
 <p><img src="figs/inlining-across-file-0.svg"  width="550"></p>
-<p>A programmer can manually resolve that by copying the function definition to multiple implementation files where it is used. However, the compiler would normally raise a compilation error due to <em>multiple definitions</em>. Consider the example below:</p>
-<p><code>file1.c</code></p>
+<p>A programmer can work around this limitation by manually copying the function definition to multiple implementation files where it is used. However, if the function is simply copied to multiple files, the compiler would raise a compilation error due to <em>multiple definitions</em>. Consider the example below:</p>
+<p><em>file1.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> foo() {}
 <span class="dt">void</span> bar() { foo(); }</code></pre></div>
-<p><code>file2.c</code></p>
+<p><em>file2.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> foo() {}
 <span class="dt">void</span> baz() { foo(); }</code></pre></div>
-<p><code>main.c</code></p>
+<p><em>main.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main() { <span class="cf">return</span> <span class="dv">0</span>; }</code></pre></div>
 <p>If we compile these files with the command <code>clang *.c -o main</code>, we get the following error message:</p>
 <pre><code>/tmp/file2-d2d43e.o: In function `foo&#39;:
@@ -35,23 +35,24 @@ file2.c:(.text+0x0): multiple definition of `foo&#39;
 /tmp/file1-c68965.o:file1.c:(.text+0x0): first defined here</code></pre>
 <p>This error is detected during link time. Once each object file has been created by the back-end, the linker is responsible for combining all of them into a single executable. During this process, the linker identifies that there are multiple definitions of an <em>external symbol</em>, that is, the object files have conflicting symbols. At this point, the previous error is raised.</p>
 <p>One way the programmer can avoid that is by defining the copies of the function as having a local linkage by using the <code>static</code> keyword. That is, the copies will be only internal to their files, avoiding the previous conflict between external symbols. The example below can be compiled without any problem:</p>
-<p><code>file1.c</code></p>
+<p><em>file1.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">void</span> foo() {}
 <span class="dt">void</span> bar() { foo(); }</code></pre></div>
-<p><code>file2.c</code></p>
+<p><em>file2.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">static</span> <span class="dt">void</span> foo() {}   <span class="co">//changed to &#39;static&#39;</span>
 <span class="dt">void</span> baz() { foo(); }</code></pre></div>
-<p><code>main.c</code></p>
+<p><em>main.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main() { <span class="cf">return</span> <span class="dv">0</span>; }</code></pre></div>
+<p>The <code>static</code> keyword allows local copies of a function to be present in multiple files, and therefore be potentially inlined. However, the compiler assumes that the internal <code>static</code> functions are distinct from the external function of same name, keeping all of them in the final binary. In particular, if if an internal function has no reference to it, then it is not included in the object file, otherwise it is kept in. References may still exists during code generation if its address is taken for indirect use or if there remaining explicit calls to it, for example, because inlining was not profitable in these specific call-sites.</p>
 <p><img src="figs/inlining-across-file-1.png"></p>
-<p><code>file1.c</code></p>
+<p><em>file1.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> foo(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> a*b; }
 <span class="dt">int</span> bar(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> foo(a,b); }</code></pre></div>
-<p><code>file2.c</code></p>
+<p><em>file2.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">static</span> <span class="dt">int</span> foo(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> a*b; }
 <span class="dt">int</span> apply(<span class="dt">int</span> (*f)(<span class="dt">int</span>,<span class="dt">int</span>), <span class="dt">int</span> b);
 <span class="dt">int</span> baz(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> foo(a,b) + apply(foo, b); }</code></pre></div>
-<p><code>main.c</code></p>
+<p><em>main.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> apply(<span class="dt">int</span> (*f)(<span class="dt">int</span>,<span class="dt">int</span>), <span class="dt">int</span> b) { <span class="cf">return</span> f(b,b); }
 <span class="dt">int</span> main() { <span class="cf">return</span> <span class="dv">0</span>; }</code></pre></div>
 <p><code>clang *.c -O2 -finline -o main</code></p>
@@ -97,14 +98,14 @@ file2.c:(.text+0x0): multiple definition of `foo&#39;
 <span class="fu">  4004e3:</span>       <span class="kw">nop</span>     <span class="dt">word</span> <span class="dt">ptr</span> <span class="kw">cs</span>:[rax + rax]
 <span class="fu">  4004ed:</span>       <span class="kw">nop</span>     <span class="dt">dword</span> <span class="dt">ptr</span> [rax]</code></pre></div>
 <p>as shown below</p>
-<p><code>file1.c</code></p>
+<p><em>file1.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> foo(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> a*b; }
 <span class="dt">int</span> bar(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> foo(a,b); }</code></pre></div>
-<p><code>file2.c</code></p>
+<p><em>file2.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">inline</span> <span class="dt">int</span> foo(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> a*b; }    <span class="co">// changed to &#39;inline&#39; </span>
 <span class="dt">int</span> apply(<span class="dt">int</span> (*f)(<span class="dt">int</span>,<span class="dt">int</span>), <span class="dt">int</span> b);
 <span class="dt">int</span> baz(<span class="dt">int</span> a, <span class="dt">int</span> b) { <span class="cf">return</span> foo(a,b) + apply(foo, b); }</code></pre></div>
-<p><code>main.c</code></p>
+<p><em>main.c</em></p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> apply(<span class="dt">int</span> (*f)(<span class="dt">int</span>,<span class="dt">int</span>), <span class="dt">int</span> b) { <span class="cf">return</span> f(b,b); }
 <span class="dt">int</span> main() { <span class="cf">return</span> <span class="dv">0</span>; }</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode nasm"><code class="sourceCode nasm"><span class="fu">foo:</span>
