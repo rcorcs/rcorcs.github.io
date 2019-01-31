@@ -109,18 +109,20 @@ void baz() { foo(); }
 int main() { return 0; }
 ```
 
-The `static` keyword allows local copies of a function to be present in
-multiple files, and therefore be potentially inlined.
+The `static` keyword defines symbol names as local to a translation unit,
+preventing conflict across files, whether or not these symbols represent
+identical functions.
+This allows for local copies of a function to be present in multiple files, and
+therefore be potentially inlined.
 However, the compiler assumes that the internal `static` functions are distinct
 from the external function of same name, keeping all of them in the final binary.
-In particular, if if an internal function has no reference to it, then it is
+In particular, if an internal function has no reference to it, then it is
 not included in the object file, otherwise it is kept in.
-References may still exists during code generation if its address is taken
-for indirect use or if there remaining explicit calls to it, for example,
+References may still exist during code generation if its address is taken
+for indirect use or if there are remaining explicit calls to it, for example,
 because inlining was not profitable in these specific call-sites.
 
 <img src="figs/inlining-across-file-1.png">
-
 
 *file1.c*
 ```C
