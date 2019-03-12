@@ -12,7 +12,7 @@ var data = {
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
       borderColor: 'rgba(0, 0, 0, 0.4)',
       borderWidth: 1,
-      data: [0, 0, 0, 3, 11, 25, 2],
+      data: [0, 0, 0, 3, 11, 23, 7],
     }]
 };
 var options = {
