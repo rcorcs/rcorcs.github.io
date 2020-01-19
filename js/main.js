@@ -1,18 +1,12 @@
 var data = {
-    labels: ["2013", "2014", "2015", "2016", "2017", "2018", "2019"],
-    datasets: [{
-        label: "Publications",
-        backgroundColor: 'rgba(54, 162, 235, 0.4)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
-        data: [1, 1, 3, 5, 8, 3, 2],
-    },
+    labels: ["2015", "2016", "2017", "2018", "2019", "2020"],
+    datasets: [
     {
       label: "Citations",
-      backgroundColor: 'rgba(0, 0, 0, 0.2)',
-      borderColor: 'rgba(0, 0, 0, 0.4)',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      borderColor: 'rgba(0, 0, 0, 0.7)',
       borderWidth: 1,
-      data: [0, 0, 0, 3, 11, 23, 7],
+      data: [0, 5, 11, 29, 16, 0],
     }]
 };
 var options = {
@@ -21,9 +15,9 @@ var options = {
     scales: {
         yAxes: [{
             ticks: {
-                max: 25,
+                max: 30,
                 min: 0,
-                stepSize: 2,
+                stepSize: 5,
             },
             stacked: false
         }],
