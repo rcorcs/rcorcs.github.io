@@ -49,7 +49,7 @@
       </div>
       <div class="entry">
         <h3>Published papers</h3>
-        <input type="text" placeholder="Keywords" id="keywords"/> <button onclick="runFilter()">Filter</button>
+        <input type="text" placeholder="Keywords" id="keywords" autocomplete="off"/> <button onclick="runFilter()">Filter</button>
         <input type="checkbox" id="showDetails" onclick="detailsCheck(this);" checked> Show details</input>
         <div id="published-papers">
         </div>
@@ -84,15 +84,17 @@
 
           function filterKeywords(fkeywords,keywords) {
             if (fkeywords!=null && fkeywords.length>0) {
-               var FoundAny = false;
+               var FoundAll = true;
                if ( keywords!=null && keywords.length>0 ) {
                   $.each(fkeywords, function(index, fkw) {
+                    var FoundAny = false;
                     $.each(keywords, function(index, kw) {
                       FoundAny = FoundAny || (kw.toLowerCase().includes(fkw.toLowerCase()));
                     });
+                    FoundAll = FoundAll && FoundAny;
                   });
                }
-               if (!FoundAny) return true;
+               if (!FoundAll) return true;
             }
             return false;
           }
