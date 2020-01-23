@@ -104,7 +104,7 @@
                    content += "<summary>[" + value.conference + "'" + (value.year%100) + "] <strong style=\"font-size: 120%;\">" + value.title + "</strong>";
                 else if ( value.journal )
                    content += "<summary>[" + value.journal + " " + value.year + "] <strong style=\"font-size: 120%;\">" + value.title + "</strong>";
-                else content += "<summary><strong style=\"font-size: 120%;\">" + value.title + "</strong>";
+                else content += "<summary>[preprint] <strong style=\"font-size: 120%;\">" + value.title + "</strong>";
 
                 if (value.notes!=null && value.notes.length>0) {
                    $.each(value.notes, function(index, note) {
