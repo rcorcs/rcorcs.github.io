@@ -218,6 +218,7 @@ var papers = [{
 "links": [
   { "name":"pdf", "url":"papers/typed-graph-theory.pdf"},
 ],
+"year":0,
 "keywords":["graph theory","type theory","type system","typed graph theory"],
 "citations":1,
 },
