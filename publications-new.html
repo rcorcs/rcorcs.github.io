@@ -49,8 +49,9 @@
       </div>
       <div class="entry">
         <h3>Published papers</h3>
-        <input type="text" placeholder="Keywords" id="keywords" autocomplete="off"/> <button onclick="runFilter()">Filter</button>
-        <input type="checkbox" id="showDetails" onclick="detailsCheck(this);" checked> Show details</input>
+        <input type="text" placeholder="Keywords" id="keywords" autocomplete="off"/> <button onclick="runFilter()">Filter</button><br/>
+        <input type="checkbox" id="showDetails" onclick="runFilter();" checked> Show details </input>
+        <input type="checkbox" id="rankCitations" onclick="runFilter();" > Rank citations</input>
         <div id="published-papers">
         </div>
         <script>
@@ -75,11 +76,7 @@
           });
 
           function runFilter() {
-            populate($('#showDetails').is(':checked'), processKeywords($('#keywords').val()));
-          }
-
-          function detailsCheck(cb) {
-            populate(cb.checked, processKeywords($('#keywords').val()));
+            populate($('#showDetails').is(':checked'), processKeywords($('#keywords').val()), $('#rankCitations').is(':checked'));
           }
 
           function filterKeywords(fkeywords,keywords) {
@@ -99,8 +96,12 @@
             return false;
           }
 
-          function populate(openDetails,fkeywords) {
+          function populate(openDetails,fkeywords,rankCitations) {
 		       var content = "";
+
+             if  (rankCitations) papers.sort( function(a,b) { return b.citations-a.citations; } );
+             else papers.sort( function(a,b) { return b.year-a.year; } );
+
 		       $.each(papers, function(index, value) {
 
                 if (filterKeywords(fkeywords,processKeywords( (value.keywords!=null?value.keywords.join(","):"")+value.title ))) return;
@@ -125,6 +126,9 @@
                    content += "<span style=\"color: grey;\">" + conferences[value.conference] + ", " + value.year + "</span><br/>\n";
                 else if ( value.journal )
                    content += "<span style=\"color: grey;\">" + journals[value.journal] + ", " + value.year + "</span><br/>\n";
+                if ( value.citations!=null && value.citations>0 ) {
+                   content += "<span style=\"color: grey;\">Citations: " + value.citations + "</span><br/>\n";
+                }
 
                 if (value.links!=null && value.links.length>0) {
                    content += "<small>\n";
@@ -148,7 +152,7 @@
              var PapersDiv = $("#published-papers");
              PapersDiv.html(content);
           }
-          populate(true, null);
+          populate(true, null, false);
         </script>
       </div>
       <footer class="footer">
