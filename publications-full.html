@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="Rodrigo Caetano Rocha">
+    <link rel="icon" href="img/uoe-icon.png">
+
+    <title>Rodrigo Rocha</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="published-papers.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="nav" style="margin-bottom:5%;text-align: center;">
+         <img src="img/logoUEdinburgh.jpg" width="40%" style=""/>
+      </div>
+
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="index.html">About</a></li>
+            <li role="presentation" class="active"><a href="publications-en.html">Publications</a></li>
+            <!--li role="presentation"><a href="projects.html">Projects</a></li-->
+            <li role="presentation"><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Rodrigo Rocha</h3>
+      </div>
+      <div class="entry">
+        <h3>Published papers</h3>
+        <input type="text" placeholder="Keywords" id="keywords" autocomplete="off"/> <button onclick="runFilter()">Filter</button><br/>
+        <input type="checkbox" id="showDetails" onclick="runFilter();" checked> Show details </input>
+        <input type="checkbox" id="rankCitations" onclick="runFilter();" > Rank citations</input>
+        <div id="published-papers"/>
+      </div>
+      <footer class="footer">
+        <div style="float: left">Rodrigo Caetano de Oliveira Rocha</div>
+        <div style="float:right">
+          <!--a style="margin-left:2px" href="https://www.patreon.com/rcor" title="Patreon"><img src="img/patreon.png" width="20"></a-->
+          <a style="margin-left:2px" href="https://instagram.com/rcorcs" title="Instagram"><img src="img/instagram.jpg" width="20"></a>
+          <a style="margin-left:2px" href="https://github.com/rcorcs" title="Github"><img src="img/github.png" width="20"></a>
+          <a style="margin-left:2px" href="https://scholar.google.com.br/citations?user=IrXDe0gAAAAJ&amp;hl=en" title="Google Scholar"><img src="img/googlescholar.jpg" width="20"> </a>
+          <a style="margin-left:2px" href="http://dblp.uni-trier.de/pers/hd/r/Rocha:Rodrigo_Caetano.html" title="dblp"><img src="img/dblp.png" width="20"> </a>
+          <a style="margin-left:2px" href="http://www.researchgate.net/profile/Rodrigo_Rocha10" title="ResearchGate"><img src="img/researchgate.png" width="20"> </a>
+        </div>
+      </footer>
+    </div> <!-- /container -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
+<script>
+	 function processKeywords(Text) {
+		var pArr = [];
+		if (Text!=null && Text.trim().length > 0) {
+		  var Arr = Text.trim().split(/[,;. -]/);
+		  $.each(Arr, function(index, val) {
+		     valArr = $.map(val.split(), function(val,i) { return val.trim().toLowerCase(); });
+		     $.each(valArr, function(index, nval) {
+		       pArr.push(nval);
+		     });
+		  });
+		}
+		return pArr;
+	 }
+
+	 $("#keywords").on('keyup', function (e) {
+		//if (e.keyCode === 13) {
+		  runFilter();
+		//}
+	 });
+
+	 function runFilter() {
+		populate($('#showDetails').is(':checked'), processKeywords($('#keywords').val()), $('#rankCitations').is(':checked'));
+	 }
+
+	 function filterKeywords(fkeywords,keywords) {
+		if (fkeywords!=null && fkeywords.length>0) {
+		   var FoundAll = true;
+		   if ( keywords!=null && keywords.length>0 ) {
+		      $.each(fkeywords, function(index, fkw) {
+		        var FoundAny = false;
+		        $.each(keywords, function(index, kw) {
+		          FoundAny = FoundAny || (kw.toLowerCase().includes(fkw.toLowerCase()));
+		        });
+		        FoundAll = FoundAll && FoundAny;
+		      });
+		   }
+		   if (!FoundAll) return true;
+		}
+		return false;
+	 }
+
+	 function populate(openDetails,fkeywords,rankCitations) {
+		 var content = "";
+
+		 if  (rankCitations) papers.sort( function(a,b) { return b.citations-a.citations; } );
+		 else papers.sort( function(a,b) { return b.year-a.year; } );
+
+		 $.each(papers, function(index, value) {
+
+		    if (filterKeywords(fkeywords,processKeywords( (value.keywords!=null?value.keywords.join(","):"")+value.title ))) return;
+
+		    content += "<br/><details " + (openDetails?" open":"") +">\n";
+		    if ( value.conference )
+		       content += "<summary>[" + value.conference + "'" + (value.year%100) + "] <strong style=\"font-size: 120%;\">" + value.title + "</strong>";
+		    else if ( value.journal )
+		       content += "<summary>[" + value.journal + " " + value.year + "] <strong style=\"font-size: 120%;\">" + value.title + "</strong>";
+		    else content += "<summary>[preprint] <strong style=\"font-size: 120%;\">" + value.title + "</strong>";
+
+		    if (value.notes!=null && value.notes.length>0) {
+		       $.each(value.notes, function(index, note) {
+		          if (note.img!=null)
+		             content += " <a href=\""+ note.url +"\" target=\"_blank\"><img src=\""+ note.img +"\" width=\"32\"></a>";
+		          else content += " <a href=\""+ note.url +"\" target=\"_blank\">["+note.name+"]</a>";
+		       });
+		    }
+		    content += "</summary>\n";
+		    content += "<span style=\"color: grey;\">" + value.authors + "</span><br/>\n";
+		    if ( value.conference )
+		       content += "<span style=\"color: grey;\">" + conferences[value.conference] + ", " + value.year + "</span><br/>\n";
+		    else if ( value.journal )
+		       content += "<span style=\"color: grey;\">" + journals[value.journal] + ", " + value.year + "</span><br/>\n";
+		    if ( value.citations!=null && value.citations>0 ) {
+		       content += "<span style=\"color: grey;\">Citations: " + value.citations + "</span><br/>\n";
+		    }
+
+		    if (value.links!=null && value.links.length>0) {
+		       content += "<small>\n";
+		       $.each(value.links, function(index, link) {
+		          if (link.img!=null)
+		             content += " <a href=\""+ link.url +"\" target=\"_blank\"><img src=\""+ link.img +"\" width=\"16\"></a>";
+		          else content += " <a href=\""+ link.url +"\" target=\"_blank\">["+link.name+"]</a>";
+		       });
+		       content += "</small>\n";
+		    }
+		    if ( value.keywords!=null && value.keywords.length>0 ) {
+		       content += "<details><summary>keywords</summary>\n";
+		       $.each(value.keywords, function(index, keyword) {
+		         if (index>0) content += ", ";
+		         content += keyword
+		       });
+		       content += "</details>\n";
+		    }
+		    content += "</details>\n";
+		 });
+		 var PapersDiv = $("#published-papers");
+		 PapersDiv.html(content);
+	 }
+	 populate(true, null, false);
+</script>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17085133-3', 'auto');
+ga('send', 'pageview');
+
+</script>
