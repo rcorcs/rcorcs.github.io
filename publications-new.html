@@ -67,9 +67,9 @@
           }
 
           $("#keywords").on('keyup', function (e) {
-            if (e.keyCode === 13) {
+            //if (e.keyCode === 13) {
               runFilter();
-            }
+            //}
           });
 
           function runFilter() {
@@ -84,7 +84,7 @@
                if ( keywords!=null && keywords.length>0 ) {
                   $.each(fkeywords, function(index, fkw) {
                     $.each(keywords, function(index, kw) {
-                      FoundAny = FoundAny || (fkw.toLowerCase()==kw.toLowerCase());
+                      FoundAny = FoundAny || (kw.toLowerCase().includes(fkw.toLowerCase()));
                     });
                   });
                }
