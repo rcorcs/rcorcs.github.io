@@ -74,7 +74,7 @@
 	 function processKeywords(Text) {
 		var pArr = [];
 		if (Text!=null && Text.trim().length > 0) {
-		  var Arr = Text.trim().split(/[,;. -]/);
+		  var Arr = Text.trim().split(/[\W_]/);
 		  $.each(Arr, function(index, val) {
 		     valArr = $.map(val.split(), function(val,i) { return val.trim().toLowerCase(); });
 		     $.each(valArr, function(index, nval) {
