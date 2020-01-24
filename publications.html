@@ -52,6 +52,8 @@
         <input type="text" placeholder="Keywords" id="keywords" autocomplete="off" size="40"/> <button onclick="runFilter()">Search</button><br/>
         <input type="checkbox" id="showDetails" onclick="runFilter();" checked> Show details </input>
         <input type="checkbox" id="rankCitations" onclick="runFilter();" > Rank citations</input>
+        <button id="highlights" onclick="runHighlights()">Highlights</button>
+        <button id="showAll" onclick="showAll()">Show All</button>
         <div id="published-papers"/>
       </div>
       <footer class="footer">
@@ -91,10 +93,6 @@
 		//}
 	 });
 
-	 function runFilter() {
-		populate($('#showDetails').is(':checked'), processKeywords($('#keywords').val()), $('#rankCitations').is(':checked'));
-	 }
-
 	 function filterKeywords(fkeywords,keywords) {
 		if (fkeywords!=null && fkeywords.length>0) {
 		   var FoundAll = true;
@@ -112,17 +110,22 @@
 		return false;
 	 }
 
-	 function populate(openDetails,fkeywords,rankCitations) {
+	 function populate(openDetails,fkeywords,rankCitations,showHighlights) {
 		 var content = "";
 
-		 if  (rankCitations) papers.sort( function(a,b) { return b.citations-a.citations; } );
+       if (showHighlights)  papers.sort( function(a,b) { return a.highlight-b.highlight; } );
+		 else if (rankCitations) papers.sort( function(a,b) { return b.citations-a.citations; } );
 		 else papers.sort( function(a,b) { return b.year-a.year; } );
+
+       if (showHighlights) content += "<h4>Highlights</h4>\n";
+       else content += "<br/>\n";
 
 		 $.each(papers, function(index, value) {
 
-		    if (filterKeywords(fkeywords,processKeywords( (value.keywords!=null?value.keywords.join(","):"")+value.title ))) return;
+          if (showHighlights) { if (value.highlight==null || value.highlight==0) return; }
+		    else if (filterKeywords(fkeywords,processKeywords( (value.keywords!=null?value.keywords.join(","):"")+value.title ))) return;
 
-		    content += "<br/><details " + (openDetails?" open":"") +">\n";
+		    content += "<details " + (openDetails?" open":"") +">\n";
 		    if ( value.conference )
 		       content += "<summary>[" + value.conference + "'" + (value.year%100) + "] <strong style=\"font-size: 120%;\">" + value.title + "</strong>";
 		    else if ( value.journal )
@@ -163,12 +166,30 @@
 		       });
 		       content += "</details>\n";
 		    }
-		    content += "</details>\n";
+		    content += "</details><br/>\n";
 		 });
 		 var PapersDiv = $("#published-papers");
 		 PapersDiv.html(content);
 	 }
-	 populate(true, null, false);
+    function runHighlights() {
+      $("#highlights").hide();
+      $("#showAll").show();
+      $("#keywords").val("");
+      $('#rankCitations').prop('checked',false);
+	   populate(true, null, false, true);
+    }
+    function showAll() {
+      $("#highlights").show();
+      $("#showAll").hide();
+	   populate(true, null, false, false);
+    }
+	 function runFilter() {
+      $("#highlights").show();
+      $("#showAll").hide();
+      $("#highlights").attr("disabled", false);
+		populate($('#showDetails').is(':checked'), processKeywords($('#keywords').val()), $('#rankCitations').is(':checked'), false);
+	 }
+    showAll();
 </script>
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

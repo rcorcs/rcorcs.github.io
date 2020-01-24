@@ -41,6 +41,7 @@ var papers = [{
 ],
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
 "citations":1,
+"highlight":1,
 },
 {
 "title":"Super-Node SLP: Optimized vectorization for code sequences containing operators and their inverse elements",
@@ -68,6 +69,7 @@ var papers = [{
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
 "citations":4,
+"highlight":2,
 },
 {
 "title":"Look-Ahead SLP: Auto-vectorization in the presence of commutative operations",
@@ -95,6 +97,7 @@ var papers = [{
 ],
 "keywords":["compiler","optimization","functional","parallelism","rewriting"],
 "citations":1,
+"highlight":3,
 },
 {
 "title":"TOAST: Automatic tiling for iterative stencil computations on GPUs",
@@ -221,5 +224,6 @@ var papers = [{
 "year":0,
 "keywords":["graph theory","type theory","type system","typed graph theory"],
 "citations":1,
+"highlight":4,
 },
 ];
