@@ -24,6 +24,9 @@ var papers = [{
 "award":null,
 "keywords":["compiler","optimization","SIMD","vectorization","SLP","loop","unrolling"],
 "citations":0,
+"links": [
+  { "name":"pdf", "url":"papers/cc20valu.pdf"},
+],
 },
 {
 "title":"Function merging by sequence alignment",
