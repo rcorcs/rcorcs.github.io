@@ -26,6 +26,8 @@ var papers = [{
 "citations":0,
 "links": [
   { "name":"pdf", "url":"papers/cc20valu.pdf"},
+  { "name":"bibtex", "url":"papers/cc20valu.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1145/3377555.3377890"},
 ],
 },
 {
