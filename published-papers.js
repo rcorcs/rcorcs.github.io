@@ -1,10 +1,11 @@
 var conferences = {
-"CC":"International Conference on Compiler Construction",
-"CGO":"International Symposium on Code Generation and Optimization",
-"PACT":"International Conference on Parallel Architectures and Compilation Techniques",
-"HPCS":"International Conference on High Performance Computing & Simulation",
-"ICCS":"International Conference on Computational Science",
-"SBAC-PADW":"International Symposium on Computer Architecture and High Performance Computing Workshops",
+"PLDI":"Conference on Programming Language Design and Implementation",
+"CC":"Conference on Compiler Construction",
+"CGO":"Symposium on Code Generation and Optimization",
+"PACT":"Conference on Parallel Architectures and Compilation Techniques",
+"HPCS":"Conference on High Performance Computing & Simulation",
+"ICCS":"Conference on Computational Science",
+"SBAC-PADW":"Workshops on Computer Architecture and High Performance Computing",
 "SBLP":"Brazilian Symposium on Programming Languages",
 "SBPO":"Brazilian Symposium of Operational Research",
 };
@@ -16,7 +17,19 @@ var journals = {
 };
 
 
-var papers = [{
+var papers = [
+{
+"title":"Effective function merging in the SSA form",
+"authors":"Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, Hugh Leather",
+"conference":"PLDI",
+"year":2020,
+"award":null,
+"keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
+"citations":0,
+"links": [
+],
+},
+{
 "title":"Vectorization-aware loop unrolling with seed forwarding",
 "authors":"Rodrigo Rocha, Vasileios Porpodas, Pavlos Petoumenos, Luis Goes, Zheng Wang, Murray Cole, Hugh Leather",
 "conference":"CC",
