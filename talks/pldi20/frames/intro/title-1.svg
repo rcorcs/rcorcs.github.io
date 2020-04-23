@@ -15,7 +15,7 @@
    viewBox="0 0 338.66668 190.5"
    version="1.1"
    id="svg8"
-   sodipodi:docname="Intro-Title-1.svg"
+   sodipodi:docname="title-1.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
    inkscape:export-filename="/home/rodrigo/Documents/Research/web-presentation/Intro-Title-1.png"
    inkscape:export-xdpi="146.27499"
@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="295.80113"
-     inkscape:cy="410.88499"
+     inkscape:zoom="0.5"
+     inkscape:cx="521.45923"
+     inkscape:cy="672.64983"
      inkscape:document-units="px"
      inkscape:current-layer="g1554"
      showgrid="false"
@@ -51,7 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -61,56 +61,41 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-106.50001)"
-     style="display:none">
-    <rect
-       style="opacity:0.98999999;fill:#aaccff;fill-opacity:0.75;stroke:none;stroke-width:0.66145831;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect914"
-       width="338.66666"
-       height="44.223213"
-       x="5.0862632e-06"
-       y="106.50001" />
-    <rect
-       style="opacity:0.98999999;fill:#aaccff;fill-opacity:0.75;stroke:none;stroke-width:0.66145831;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect916"
-       width="338.66666"
-       height="8.6934528"
-       x="5.0862632e-06"
-       y="288.30655" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer2"
-     inkscape:label="Slide"
      style="display:none"
      sodipodi:insensitive="true">
-    <circle
-       style="opacity:0.98999999;fill:#fbfbfb;fill-opacity:0.75;stroke:#000000;stroke-width:1.0583334;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path1493"
-       cx="69.222809"
-       cy="111.92277"
-       r="29.560009" />
-    <circle
-       r="2.5272667"
-       cy="111.92277"
-       cx="69.222809"
-       id="circle1495"
-       style="opacity:0.98999999;fill:#fbfbfb;fill-opacity:0.75;stroke:#000000;stroke-width:1.0583334;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <g
+       id="g831"
+       transform="translate(-4.6591297,15.880669)">
+      <rect
+         y="92.487679"
+         x="6.5274487"
+         height="186.76334"
+         width="334.93002"
+         id="rect815"
+         style="display:inline;opacity:0.98999999;fill:#fbfbfb;fill-opacity:1;stroke:#ffffff;stroke-width:3.73666239;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         y="90.619339"
+         x="4.6591282"
+         height="30.004477"
+         width="338.66669"
+         id="rect914"
+         style="display:inline;opacity:0.98999999;fill:#aaccff;fill-opacity:0.75;stroke:none;stroke-width:0.54484171;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
   </g>
   <g
      inkscape:label="Title"
      id="g1554"
      inkscape:groupmode="layer"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <text
        id="text1548"
-       y="26.236147"
-       x="85.312431"
+       y="19.886141"
+       x="76.230492"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.11111069px;line-height:1.25;font-family:'Libre Baskerville';-inkscape-font-specification:'Libre Baskerville';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        xml:space="preserve"><tspan
-         style="stroke-width:0.26458332"
-         y="26.236147"
-         x="85.312431"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.875px;font-family:Verdana;-inkscape-font-specification:Verdana;stroke-width:0.26458332"
+         y="19.886141"
+         x="76.230492"
          id="tspan1546"
          sodipodi:role="line">Compiler Optimizations</tspan></text>
   </g>

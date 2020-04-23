@@ -15,7 +15,7 @@
    viewBox="0 0 338.66668 190.5"
    version="1.1"
    id="svg8"
-   sodipodi:docname="Background.svg"
+   sodipodi:docname="bg.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)">
   <sodipodi:namedview
      id="base"
@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="516.94938"
-     inkscape:cy="360.17452"
+     inkscape:zoom="0.5"
+     inkscape:cx="426.23728"
+     inkscape:cy="239.50604"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -57,8 +57,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-106.50001)"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
        style="opacity:0.98999999;fill:#fbfbfb;fill-opacity:1;stroke:#ffffff;stroke-width:3.73666239;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect815"
@@ -67,19 +66,12 @@
        x="1.8683251"
        y="108.36835" />
     <rect
-       style="opacity:0.98999999;fill:#aaccff;fill-opacity:0.75;stroke:none;stroke-width:0.66145831;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:0.98999999;fill:#aaccff;fill-opacity:0.75;stroke:none;stroke-width:0.54484171;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect914"
        width="338.66666"
-       height="44.223213"
+       height="30.004475"
        x="5.0862632e-06"
        y="106.50001" />
-    <rect
-       style="opacity:0.98999999;fill:#aaccff;fill-opacity:0.75;stroke:none;stroke-width:0.66145831;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect916"
-       width="338.66666"
-       height="8.6934528"
-       x="5.0862632e-06"
-       y="288.30655" />
   </g>
   <script
      ns1:version="1.5.5"

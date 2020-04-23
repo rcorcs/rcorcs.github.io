@@ -15,7 +15,7 @@
    viewBox="0 0 338.66668 190.5"
    version="1.1"
    id="svg8"
-   sodipodi:docname="content-1.svg"
+   sodipodi:docname="clock.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)">
   <sodipodi:namedview
      id="base"
@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35355339"
-     inkscape:cx="473.71376"
-     inkscape:cy="254.50465"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="176.86901"
+     inkscape:cy="231.85304"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
@@ -56,29 +56,6 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     ns1:masterSlide="masterSlide"
-     inkscape:label="Background"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-106.50001)"
-     style="display:none"
-     sodipodi:insensitive="true">
-    <rect
-       style="opacity:0.98999999;fill:#aaccff;fill-opacity:0.75;stroke:none;stroke-width:0.66145831;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect914"
-       width="338.66666"
-       height="44.223213"
-       x="5.0862632e-06"
-       y="106.50001" />
-    <rect
-       style="opacity:0.98999999;fill:#aaccff;fill-opacity:0.75;stroke:none;stroke-width:0.66145831;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect916"
-       width="338.66666"
-       height="8.6934528"
-       x="5.0862632e-06"
-       y="288.30655" />
-  </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
@@ -240,18 +217,18 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.11111069px;line-height:1.25;font-family:'Libre Baskerville';-inkscape-font-specification:'Libre Baskerville';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458335"
-       x="51.766991"
+       x="51.501923"
        y="155.83954"
        id="text1159"><tspan
          sodipodi:role="line"
          id="tspan1157"
-         x="51.766991"
+         x="51.501923"
          y="155.83954"
-         style="font-size:10.58333397px;text-align:center;text-anchor:middle;stroke-width:0.26458335">Runtime</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333397px;font-family:Verdana;-inkscape-font-specification:Verdana;text-align:center;text-anchor:middle;stroke-width:0.26458335">Runtime</tspan><tspan
          sodipodi:role="line"
-         x="51.766991"
+         x="51.501923"
          y="173.47842"
-         style="font-size:10.58333397px;text-align:center;text-anchor:middle;stroke-width:0.26458335"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333397px;font-family:Verdana;-inkscape-font-specification:Verdana;text-align:center;text-anchor:middle;stroke-width:0.26458335"
          id="tspan1161">Performance</tspan></text>
   </g>
   <script
