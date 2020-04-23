@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script type="text/javascript" src="settings.json"></script>
+    <style>
+      html, body {
+         overflow: hidden;
+      }
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      canvas {
+        display: block;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body data-rsssl=1>
+    <canvas id="Canvas" width="1280" height="720"/>
+    <script type="text/javascript">
+      const canvas = document.getElementById('Canvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const canvasCtx = canvas.getContext('2d');
+
+      function clear() {
+        canvasCtx.clearRect(0,0,canvas.width,canvas.height);
+      } 
+
+      function drawImg(img) {
+        canvasCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+
+      function loadImg(path) {
+        var image = new Image();
+        context.cacheCount++;
+        image.onload = function() {        
+          context.cacheCount--;
+          flush();
+        };
+        image.src = path;
+        return image;
+      }
+
+      function lazyDraw() {
+        if ("bgImg" in context) drawImg(context.bgImg);
+        context.cachedImgs.forEach(drawImg);
+        if (context.autoplay && "playImg" in context) drawImg(context.playImg);
+      }
+
+      function flush() {
+        if (context.cacheCount==0) {
+          lazyDraw();
+        }
+      }
+
+      function drawImgFromFile(path) {
+        var image = new Image();
+        image.onload = function() {        
+          canvasCtx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        };
+        image.src = path;
+      }
+
+      function keyEvent(e) {
+        var key = e.code;
+        if (key=='ArrowRight') next();
+        if (key=='ArrowLeft') previous();
+        if (key=='KeyP') togglePlay();
+      }
+  
+      document.addEventListener('keydown', keyEvent);
+
+      function next() {
+        if (context.index==(context.frames.length-1)) return;
+        context.index++;
+        update();
+      }
+
+      function previous() {
+        if (context.index==0) return;
+        context.index--;
+        update();
+      }
+
+      function update() {
+        context.cachedImgs = [];
+        var i;
+        for (i = 0; i<context.frames[context.index].length; i++) {
+          context.cachedImgs[i] = loadImg(context.frames[context.index][i]);
+        }
+        flush();
+      }
+
+      function togglePlay() {
+        context.autoplay = !context.autoplay;
+        update();
+      }
+
+      function refreshEvent() {
+        if (context.autoplay) next();
+        else flush();
+        setTimeout( refreshEvent, context.timeout );
+      }
+
+      var context = new Object();
+      function setup() {
+        context.autoplay = settings.autoplay;
+        context.index = 0;
+        context.cacheCount = 0;
+        context.timeout = 1000/settings.fps;
+        if ("background" in settings && settings.background!=null && settings.background!="") {
+          context.bgImg = loadImg(settings.background);
+        }
+        if ("play" in settings && settings.play!=null && settings.play!="") {
+          context.playImg = loadImg(settings.play);
+        }
+        
+        context.frames = settings.frames;
+
+        update();
+        refreshEvent();
+      }
+      
+      setup();
+
+     </script>
+  </body>
+</html>
