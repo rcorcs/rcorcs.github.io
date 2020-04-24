@@ -28,6 +28,7 @@ function lazyDraw() {
 function flush() {
   if (context.cacheCount==0) {
     lazyDraw();
+    setTimeout( refreshEvent, context.timeout );
   }
 }
 
@@ -90,7 +91,6 @@ function togglePlay() {
 function refreshEvent() {
   if (context.autoplay) next();
   else flush();
-  setTimeout( refreshEvent, context.timeout );
 }
 
 function addLayer(path,fromIdx, toIdx=null) {
@@ -103,6 +103,69 @@ function addLayer(path,fromIdx, toIdx=null) {
     settings.frames[i].push(path);
   }
 }
+
+var FrameBuilder = new Object();
+FrameBuilder.frames = [];
+FrameBuilder.layerStack = [];
+FrameBuilder.prefix = "";
+FrameBuilder.start = function (pathPrefix="") {
+  FrameBuilder.prefix = pathPrefix;
+  FrameBuilder.layerStack = [];
+  FrameBuilder.frames = [];
+  return FrameBuilder;
+}
+FrameBuilder.end = function () {
+  return FrameBuilder.frames;
+}
+FrameBuilder.pushLayers = function (paths) {
+  var i;
+  for (i=0;i<paths.length;i++) {
+    FrameBuilder.layerStack.push(FrameBuilder.prefix+paths[i]);
+  }
+
+  var idx = FrameBuilder.frames.length;
+  FrameBuilder.frames[idx] = [];
+
+  for (i=0;i<FrameBuilder.layerStack.length;i++) {
+    FrameBuilder.frames[idx].push(FrameBuilder.layerStack[i]);
+  }
+
+  return FrameBuilder;
+}
+FrameBuilder.popLayers = function (count=1) {
+  var i;
+  for (i=0;i<count;i++) {
+    FrameBuilder.layerStack.pop();
+  }
+  return FrameBuilder;
+}
+FrameBuilder.popAllLayers = function () {
+  FrameBuilder.layerStack = [];
+  return FrameBuilder;
+}
+
+/*
+function pushLayers(paths) {
+  var i;
+  for (i=0;i<paths.length;i++) {
+    framesBuilder.push(paths[i]);
+  }
+
+  if ( !("frames" in settings) ) settings.frames = [];
+  var idx = settings.frames.length;
+  settings.frames[idx] = [];
+
+  for (i=0;i<framesBuilder.length;i++) {
+    settings.frames[idx].push(framesBuilder[i]);
+  }
+}
+function popLayers(count=1) {
+  var i;
+  for (i=0;i<count;i++) {
+    framesBuilder.pop();
+  }
+}
+*/
 
 function setup(canvasContext) {
   context.canvas = canvasContext;
