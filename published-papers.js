@@ -27,6 +27,9 @@ var papers = [
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
 "citations":0,
 "links": [
+  { "name":"pdf", "url":"papers/pldi20salssa.pdf"},
+  { "name":"bibtex", "url":"papers/pldi20salssa.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1145/3385412.3386030"},
 ],
 },
 {
