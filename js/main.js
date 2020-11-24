@@ -6,12 +6,12 @@ var data = {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       borderColor: 'rgba(0, 0, 0, 0.7)',
       borderWidth: 1,
-      data: [0, 5, 11, 27, 19, 5],
+      data: [0, 5, 10, 30, 20, 21],
     }]
 };
 var options = {
     responsive: false,
-    barThickness: 15,
+    barThickness: 10,
     scales: {
         yAxes: [{
             ticks: {
