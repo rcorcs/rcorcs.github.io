@@ -3,6 +3,7 @@ var conferences = {
 "CC":"Conference on Compiler Construction",
 "CGO":"Symposium on Code Generation and Optimization",
 "PACT":"Conference on Parallel Architectures and Compilation Techniques",
+"LCTES":"Conference on Languages Compilers, Tools and Theory of Embedded Systems",
 "HPCS":"Conference on High Performance Computing & Simulation",
 "ICCS":"Conference on Computational Science",
 "SBAC-PADW":"Workshops on Computer Architecture and High Performance Computing",
@@ -19,13 +20,23 @@ var journals = {
 
 var papers = [
 {
+"title":"HyFM: Function Merging for Free",
+"authors":"Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, Hugh Leather, Kim Hazelwood",
+"conference":"LCTES",
+"year":2021,
+"award":null,
+"keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
+"citations":0,
+"links": [],
+},
+{
 "title":"Effective function merging in the SSA form",
 "authors":"Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, Hugh Leather",
 "conference":"PLDI",
 "year":2020,
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":0,
+"citations":2,
 "links": [
   { "name":"pdf", "url":"papers/pldi20salssa.pdf"},
   { "name":"bibtex", "url":"papers/pldi20salssa.bib"},
@@ -39,7 +50,7 @@ var papers = [
 "year":2020,
 "award":null,
 "keywords":["compiler","optimization","SIMD","vectorization","SLP","loop","unrolling"],
-"citations":0,
+"citations":1,
 "links": [
   { "name":"pdf", "url":"papers/cc20valu.pdf"},
   { "name":"bibtex", "url":"papers/cc20valu.bib"},
@@ -61,7 +72,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=sOCFYfF3iwE", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":1,
+"citations":9,
 "highlight":1,
 },
 {
@@ -75,7 +86,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1109/CGO.2019.8661192"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":1,
+"citations":7,
 },
 {
 "title":"VW-SLP: Auto-vectorization with adaptive vector width",
@@ -89,7 +100,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=d5LgjCDkkB0", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":4,
+"citations":6,
 "highlight":2,
 },
 {
@@ -104,7 +115,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=gIEn34LvyNo", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":5,
+"citations":7,
 },
 {
 "title":"Automatic parallelization of recursive functions with rewriting rules",
@@ -117,7 +128,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1016/j.scico.2018.01.004"},
 ],
 "keywords":["compiler","optimization","functional","parallelism","rewriting"],
-"citations":1,
+"citations":2,
 "highlight":3,
 },
 {
@@ -131,7 +142,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.1002/cpe.4053"},
 ],
 "keywords":["parallelism","tiling","optimization","stencil","skeletons","GPU"],
-"citations":9,
+"citations":12,
 },
 {
 "title":"Real-time video denoising on multicores and GPUs with Kalman-based and bilateral filters fusion",
@@ -144,7 +155,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=oID9Rbf6OBw", "img":"img/youtube.png"},
 ],
 "keywords":["image processing","video processing","denoising","GPU","multicore"],
-"citations":5,
+"citations":8,
 },
 {
 "title":"Automatic partitioning of stencil computations on heterogeneous systems",
@@ -170,7 +181,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1109/HPCS.2017.110"},
 ],
 "keywords":["compiler","parallelism","stencil","skeletons","GPU","multicore","OpenACC"],
-"citations":7,
+"citations":8,
 },
 {
 "title":"Enabling efficient stencil code generation in OpenACC",
@@ -183,7 +194,7 @@ var papers = [
   { "name":"doi", "url":"http://doi.org/10.1016/j.procs.2017.05.155"},
 ],
 "keywords":["compiler","parallelism","stencil","skeletons","GPU","multicore","OpenACC"],
-"citations":2,
+"citations":3,
 },
 {
 "title":"Watershed-ng: an extensible distributed stream processing framework",
@@ -208,7 +219,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.1007/978-3-319-45279-1_10"},
 ],
 "keywords":["compiler","optimization","functional","parallelism","rewriting"],
-"citations":1,
+"citations":5,
 },
 {
 "title":"Distributed cycle detection in large-scale sparse graphs",
@@ -221,7 +232,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.13140/RG.2.1.1233.8640"},
 ],
 "keywords":["graph theory","graphs","distributed","cycle detection"],
-"citations":5,
+"citations":11,
 },
 {
 "title":"Watershed reengineering: making streams programmable",
