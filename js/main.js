@@ -1,12 +1,12 @@
 var data = {
-    labels: ["2015", "2016", "2017", "2018", "2019", "2020"],
+    labels: ["2015", "2016", "2017", "2018", "2019", "2020", "2021"],
     datasets: [
     {
       label: "Citations",
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       borderColor: 'rgba(0, 0, 0, 0.7)',
       borderWidth: 1,
-      data: [0, 5, 10, 30, 20, 21],
+      data: [0, 5, 10, 29, 21, 27, 11],
     }]
 };
 var options = {
