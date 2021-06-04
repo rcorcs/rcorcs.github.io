@@ -27,7 +27,9 @@ var papers = [
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
 "citations":0,
-"links": [],
+"links": [
+  { "name":"pdf", "url":"papers/lctes21hyfm.pdf"},
+],
 },
 {
 "title":"Effective function merging in the SSA form",
