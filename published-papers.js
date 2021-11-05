@@ -29,6 +29,8 @@ var papers = [
 "citations":0,
 "links": [
   { "name":"pdf", "url":"papers/lctes21hyfm.pdf"},
+  { "name":"bibtex", "url":"papers/lctes21hyfm.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1145/3461648.3463852"},
 ],
 },
 {
