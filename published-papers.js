@@ -20,7 +20,25 @@ var journals = {
 
 var papers = [
 {
-"title":"HyFM: Function Merging for Free",
+"title":"Loop rolling for code size reduction",
+"authors":"Rodrigo Rocha, Pavlos Petoumenos, Bjorn Franke, Pramod Bhatotia, Michael O'Boyle", 
+"conference":"CGO",
+"year":2022,
+"award":null,
+"keywords":["compiler","optimization","code size","loop rolling","loop unrolling","loop optimization"],
+"citations":0,
+},
+{
+"title":"F3M: Fast focused function merging",
+"authors":"Sean Stirling, Rodrigo Rocha, Hugh Leather, Kim Hazelwood, Michael O'Boyle, Pavlos Petoumenos", 
+"conference":"CGO",
+"year":2022,
+"award":null,
+"keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
+"citations":0,
+},
+{
+"title":"HyFM: Function merging for free",
 "authors":"Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, Hugh Leather, Kim Hazelwood",
 "conference":"LCTES",
 "year":2021,
