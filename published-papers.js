@@ -52,6 +52,20 @@ var papers = [
 ],
 },
 {
+"title":"Inlining for code size reduction",
+"authors":"Vinícius S. Pacheco, Thaís Damásio, Luís Góes, Fernando Magno Quintão Pereira, Rodrigo Rocha",
+"conference":"SBLP",
+"year":2021,
+"award":null,
+"keywords":["compiler","optimization","code size","function inlining","IPO","link time","LTO"],
+"citations":0,
+"links": [
+  { "name":"pdf", "url":"papers/sblp21inlining.pdf"},
+  { "name":"bibtex", "url":"papers/sblp21inlining.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1145/3475061.3475081"},
+],
+},
+{
 "title":"Effective function merging in the SSA form",
 "authors":"Rodrigo Rocha, Pavlos Petoumenos, Zheng Wang, Murray Cole, Hugh Leather",
 "conference":"PLDI",
