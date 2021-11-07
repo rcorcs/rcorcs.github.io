@@ -14,7 +14,8 @@ var conferences = {
 var journals = {
 "SCP":"Journal of Science of Computer Programming",
 "CCPE":"Concurrency and Computation: Practice and Experience",
-"JRTIP":"Journal of Real-Time Image Processing"
+"JRTIP":"Journal of Real-Time Image Processing",
+"Thesis":"PhD Thesis, The University of Edinburgh",
 };
 
 
@@ -34,6 +35,17 @@ var papers = [
 "conference":"CGO",
 "year":2022,
 "award":null,
+"keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
+"citations":0,
+},
+{
+"title":"Reducing code size with function merging",
+"authors":"Rodrigo Rocha",
+"journal":"Thesis",
+"year":2021,
+"links": [
+  { "name":"pdf", "url":"docs/phd-thesis.pdf"}
+],
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
 "citations":0,
 },
