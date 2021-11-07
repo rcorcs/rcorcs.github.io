@@ -72,7 +72,7 @@ var papers = [
 "year":2020,
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":2,
+"citations":7,
 "links": [
   { "name":"pdf", "url":"papers/pldi20salssa.pdf"},
   { "name":"bibtex", "url":"papers/pldi20salssa.bib"},
@@ -86,7 +86,7 @@ var papers = [
 "year":2020,
 "award":null,
 "keywords":["compiler","optimization","SIMD","vectorization","SLP","loop","unrolling"],
-"citations":1,
+"citations":5,
 "links": [
   { "name":"pdf", "url":"papers/cc20valu.pdf"},
   { "name":"bibtex", "url":"papers/cc20valu.bib"},
@@ -108,7 +108,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=sOCFYfF3iwE", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":9,
+"citations":15,
 "highlight":1,
 },
 {
@@ -122,7 +122,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1109/CGO.2019.8661192"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":7,
+"citations":9,
 },
 {
 "title":"VW-SLP: Auto-vectorization with adaptive vector width",
@@ -136,7 +136,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=d5LgjCDkkB0", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":6,
+"citations":9,
 "highlight":2,
 },
 {
@@ -151,7 +151,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=gIEn34LvyNo", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":7,
+"citations":9,
 },
 {
 "title":"Automatic parallelization of recursive functions with rewriting rules",
@@ -191,7 +191,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=oID9Rbf6OBw", "img":"img/youtube.png"},
 ],
 "keywords":["image processing","video processing","denoising","GPU","multicore"],
-"citations":8,
+"citations":10,
 },
 {
 "title":"Automatic partitioning of stencil computations on heterogeneous systems",
@@ -217,7 +217,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1109/HPCS.2017.110"},
 ],
 "keywords":["compiler","parallelism","stencil","skeletons","GPU","multicore","OpenACC"],
-"citations":8,
+"citations":9,
 },
 {
 "title":"Enabling efficient stencil code generation in OpenACC",
@@ -242,7 +242,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.1002/cpe.3779"},
 ],
 "keywords":["distributed","parallelism","big data","stream processing","data flow"],
-"citations":4,
+"citations":5,
 },
 {
 "title":"An algebraic framework for parallelizing recurrence in functional programming",
@@ -268,7 +268,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.13140/RG.2.1.1233.8640"},
 ],
 "keywords":["graph theory","graphs","distributed","cycle detection"],
-"citations":11,
+"citations":13,
 },
 {
 "title":"Watershed reengineering: making streams programmable",
