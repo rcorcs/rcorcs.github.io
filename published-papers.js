@@ -28,6 +28,9 @@ var papers = [
 "award":null,
 "keywords":["compiler","optimization","code size","loop rolling","loop unrolling","loop optimization"],
 "citations":0,
+"links": [
+  { "name":"pdf", "url":"papers/cgo22rolag.pdf"}
+],
 },
 {
 "title":"F3M: Fast focused function merging",
@@ -37,6 +40,9 @@ var papers = [
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
 "citations":0,
+"links": [
+  { "name":"pdf", "url":"papers/cgo22f3m.pdf"}
+],
 },
 {
 "title":"Reducing code size with function merging",
