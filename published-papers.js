@@ -21,6 +21,18 @@ var journals = {
 
 var papers = [
 {
+"title":"Lasagne: A static binary translator for weak memory model architectures",
+"authors":"Rodrigo Rocha, Dennis Sprokholt, Martin Fink, Redha Gouicem, Tom Spink, Soham Chakraborty, Pramod Bhatotia",
+"conference":"PLDI",
+"year":2022,
+"award":null,
+"keywords":["binary translation", "compiler","memory model","LLVM"],
+"citations":0,
+"links": [
+  { "name":"pdf", "url":"papers/pldi22lasagna.pdf"},
+],
+},
+{
 "title":"Loop rolling for code size reduction",
 "authors":"Rodrigo Rocha, Pavlos Petoumenos, Bjorn Franke, Pramod Bhatotia, Michael O'Boyle", 
 "conference":"CGO",
@@ -29,7 +41,9 @@ var papers = [
 "keywords":["compiler","optimization","code size","loop rolling","loop unrolling","loop optimization"],
 "citations":0,
 "links": [
-  { "name":"pdf", "url":"papers/cgo22rolag.pdf"}
+  { "name":"pdf", "url":"papers/cgo22rolag.pdf"},
+  { "name":"bibtex", "url":"papers/cgo22rolag.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1109/CGO53902.2022.9741256"},
 ],
 },
 {
@@ -41,7 +55,9 @@ var papers = [
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
 "citations":0,
 "links": [
-  { "name":"pdf", "url":"papers/cgo22f3m.pdf"}
+  { "name":"pdf", "url":"papers/cgo22f3m.pdf"},
+  { "name":"bibtex", "url":"papers/cgo22f3m.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1109/CGO53902.2022.9741269"},
 ],
 },
 {
