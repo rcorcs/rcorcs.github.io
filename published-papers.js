@@ -78,7 +78,7 @@ var papers = [
 "year":2021,
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":0,
+"citations":4,
 "links": [
   { "name":"pdf", "url":"papers/lctes21hyfm.pdf"},
   { "name":"bibtex", "url":"papers/lctes21hyfm.bib"},
@@ -92,7 +92,7 @@ var papers = [
 "year":2021,
 "award":null,
 "keywords":["compiler","optimization","code size","function inlining","IPO","link time","LTO"],
-"citations":0,
+"citations":3,
 "links": [
   { "name":"pdf", "url":"papers/sblp21inlining.pdf"},
   { "name":"bibtex", "url":"papers/sblp21inlining.bib"},
@@ -106,7 +106,7 @@ var papers = [
 "year":2020,
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":7,
+"citations":15,
 "links": [
   { "name":"pdf", "url":"papers/pldi20salssa.pdf"},
   { "name":"bibtex", "url":"papers/pldi20salssa.bib"},
@@ -120,7 +120,7 @@ var papers = [
 "year":2020,
 "award":null,
 "keywords":["compiler","optimization","SIMD","vectorization","SLP","loop","unrolling"],
-"citations":5,
+"citations":10,
 "links": [
   { "name":"pdf", "url":"papers/cc20valu.pdf"},
   { "name":"bibtex", "url":"papers/cc20valu.bib"},
@@ -142,7 +142,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=sOCFYfF3iwE", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":15,
+"citations":23,
 "highlight":1,
 },
 {
@@ -156,7 +156,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1109/CGO.2019.8661192"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":9,
+"citations":14,
 },
 {
 "title":"VW-SLP: Auto-vectorization with adaptive vector width",
@@ -170,7 +170,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=d5LgjCDkkB0", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":9,
+"citations":15,
 "highlight":2,
 },
 {
@@ -185,7 +185,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=gIEn34LvyNo", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":9,
+"citations":14,
 },
 {
 "title":"Automatic parallelization of recursive functions with rewriting rules",
@@ -198,7 +198,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1016/j.scico.2018.01.004"},
 ],
 "keywords":["compiler","optimization","functional","parallelism","rewriting"],
-"citations":2,
+"citations":3,
 "highlight":3,
 },
 {
@@ -212,7 +212,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.1002/cpe.4053"},
 ],
 "keywords":["parallelism","tiling","optimization","stencil","skeletons","GPU"],
-"citations":12,
+"citations":13,
 },
 {
 "title":"Real-time video denoising on multicores and GPUs with Kalman-based and bilateral filters fusion",
@@ -225,7 +225,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=oID9Rbf6OBw", "img":"img/youtube.png"},
 ],
 "keywords":["image processing","video processing","denoising","GPU","multicore"],
-"citations":10,
+"citations":11,
 },
 {
 "title":"Automatic partitioning of stencil computations on heterogeneous systems",
@@ -238,7 +238,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1109/SBAC-PADW.2017.16"},
 ],
 "keywords":["parallelism","stencil","skeletons","GPU","multicore"],
-"citations":2,
+"citations":3,
 },
 {
 "title":"Extending OpenACC for efficient stencil code generation and execution by skeleton frameworks",
