@@ -1,12 +1,12 @@
 var data = {
-    labels: ["2015", "2016", "2017", "2018", "2019", "2020", "2021"],
+    labels: ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
     datasets: [
     {
       label: "Citations",
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       borderColor: 'rgba(0, 0, 0, 0.7)',
       borderWidth: 1,
-      data: [0, 5, 11, 27, 24, 27, 51],
+      data: [0, 5, 11, 27, 23, 29, 57, 31],
     }]
 };
 var options = {
@@ -15,7 +15,7 @@ var options = {
     scales: {
         yAxes: [{
             ticks: {
-                max: 55,
+                max: 60,
                 min: 0,
                 stepSize: 5,
             },
