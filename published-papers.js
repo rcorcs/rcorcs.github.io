@@ -212,7 +212,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.1002/cpe.4053"},
 ],
 "keywords":["parallelism","tiling","optimization","stencil","skeletons","GPU"],
-"citations":13,
+"citations":14,
 },
 {
 "title":"Real-time video denoising on multicores and GPUs with Kalman-based and bilateral filters fusion",
