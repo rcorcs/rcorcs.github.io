@@ -39,7 +39,7 @@ var papers = [
 "year":2022,
 "award":null,
 "keywords":["compiler","optimization","code size","loop rolling","loop unrolling","loop optimization"],
-"citations":0,
+"citations":1,
 "links": [
   { "name":"pdf", "url":"papers/cgo22rolag.pdf"},
   { "name":"bibtex", "url":"papers/cgo22rolag.bib"},
@@ -78,7 +78,7 @@ var papers = [
 "year":2021,
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":4,
+"citations":5,
 "links": [
   { "name":"pdf", "url":"papers/lctes21hyfm.pdf"},
   { "name":"bibtex", "url":"papers/lctes21hyfm.bib"},
@@ -106,7 +106,7 @@ var papers = [
 "year":2020,
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":15,
+"citations":16,
 "links": [
   { "name":"pdf", "url":"papers/pldi20salssa.pdf"},
   { "name":"bibtex", "url":"papers/pldi20salssa.bib"},
@@ -142,7 +142,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=sOCFYfF3iwE", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":23,
+"citations":24,
 "highlight":1,
 },
 {
@@ -156,7 +156,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1109/CGO.2019.8661192"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":14,
+"citations":15,
 },
 {
 "title":"VW-SLP: Auto-vectorization with adaptive vector width",
@@ -302,7 +302,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.13140/RG.2.1.1233.8640"},
 ],
 "keywords":["graph theory","graphs","distributed","cycle detection"],
-"citations":13,
+"citations":14,
 },
 {
 "title":"Watershed reengineering: making streams programmable",
