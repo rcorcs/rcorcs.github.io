@@ -30,6 +30,8 @@ var papers = [
 "citations":0,
 "links": [
   { "name":"pdf", "url":"papers/pldi22lasagna.pdf"},
+  { "name":"bibtex", "url":"papers/pldi22lasagna.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1145/3519939.3523719"},
 ],
 },
 {
