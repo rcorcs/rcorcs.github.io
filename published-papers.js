@@ -4,6 +4,7 @@ var conferences = {
 "CGO":"Symposium on Code Generation and Optimization",
 "PACT":"Conference on Parallel Architectures and Compilation Techniques",
 "LCTES":"Conference on Languages Compilers, Tools and Theory of Embedded Systems",
+"ASPLOS":"Conference on Architectural Support for Programming Languages and Operating Systems",
 "HPCS":"Conference on High Performance Computing & Simulation",
 "ICCS":"Conference on Computational Science",
 "SBAC-PADW":"Workshops on Computer Architecture and High Performance Computing",
