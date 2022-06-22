@@ -22,7 +22,7 @@ var journals = {
 
 var papers = [
 {
-"title":"Risotto: A Dynamic Binary Translator for Weak Memory Model Architectures",
+"title":"Risotto: A dynamic binary translator for weak memory model architectures",
 "authors":"Redha Gouicem, Dennis Sprokholt, Jasper Ruehl, Rodrigo Rocha, Tom Spink, Soham Chakraborty, Pramod Bhatotia",
 "conference":"ASPLOS",
 "year":2023,
