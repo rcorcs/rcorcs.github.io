@@ -21,6 +21,17 @@ var journals = {
 
 var papers = [
 {
+"title":"Risotto: A Dynamic Binary Translator for Weak Memory Model Architectures",
+"authors":"Redha Gouicem, Dennis Sprokholt, Jasper Ruehl, Rodrigo Rocha, Tom Spink, Soham Chakraborty, Pramod Bhatotia",
+"conference":"ASPLOS",
+"year":2023,
+"award":null,
+"keywords":["binary translation", "compiler","memory model","QEMU"],
+"citations":0,
+"links": [
+],
+},
+{
 "title":"Lasagne: A static binary translator for weak memory model architectures",
 "authors":"Rodrigo Rocha, Dennis Sprokholt, Martin Fink, Redha Gouicem, Tom Spink, Soham Chakraborty, Pramod Bhatotia",
 "conference":"PLDI",
