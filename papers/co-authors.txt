@@ -20,6 +20,8 @@ João Saffran
 Sérgio Silva
 Humberto Marques-Neto
 Mário Dantas
+Vinícius S. Pacheco
+Thaís Damásio
 Vasilis Porpodas
 Zheng Wang
 Murray Cole
@@ -27,3 +29,16 @@ Hugh Leather
 Pavlos Petoumenos
 Evgueni Brevnov
 Timothy Mattson
+Sean Stirling
+Redha Gouicem
+Dennis Sprokholt
+Jasper Ruehl
+Tom Spink
+Kim Hazelwood
+Soham Chakraborty
+Pramod Bhatotia
+Bjorn Franke
+Michael O'Boyle
+Charitha Saumya
+Kirshanthan Sundararajah
+Milind Kulkarni
