@@ -15,7 +15,7 @@ var options = {
     scales: {
         yAxes: [{
             ticks: {
-                max: 60,
+                max: 65,
                 min: 0,
                 stepSize: 5,
             },
