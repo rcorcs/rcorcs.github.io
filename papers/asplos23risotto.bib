@@ -1,0 +1,17 @@
+@inproceedings{gouicem23risotto,
+author = {Gouicem, Redha and Sprokholt, Dennis and Ruehl, Jasper and Rocha, Rodrigo C. O. and Spink, Tom and Chakraborty, Soham and Bhatotia, Pramod},
+title = {Risotto: A Dynamic Binary Translator for Weak Memory Model Architectures},
+year = {2022},
+isbn = {9781450399159},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3567955.3567962},
+doi = {10.1145/3567955.3567962},
+abstract = {Dynamic Binary Translation (DBT) is a powerful approach to support cross-architecture emulation of unmodified binaries. However, DBT systems face correctness and performance challenges, when emulating concurrent binaries from strong to weak memory consistency architectures. As a matter of fact, we report several translation errors in QEMU, when emulating x86 binaries on Arm hosts. To address these challenges, we propose an end-to-end approach that provides correct and efficient emulation for weak memory model architectures. Our contributions are twofold: we formalize QEMU’s intermediate representation’s memory model, and use it to propose formally verified mapping schemes to bridge the strong-on-weak memory consistency mismatch. Secondly, we implement these verified mappings in Risotto, a QEMU-based DBT system that optimizes memory fence placement while ensuring correctness. Risotto further enhances the emulation performance via cross-architecture dynamic linking of native shared libraries, and fast and correct translation of compare-and-swap operations. We evaluate Risotto using multi-threaded benchmark suites and real-world applications, and show that Risotto improves the emulation performance by 6.7\% on average over ”erroneous” QEMU, while ensuring correctness.},
+booktitle = {Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 1},
+pages = {107–122},
+numpages = {16},
+keywords = {memory models, Binary translation, formal verification},
+location = {Vancouver, BC, Canada},
+series = {ASPLOS 2023}
+}
