@@ -22,6 +22,17 @@ var journals = {
 
 var papers = [
 {
+"title":"HyBF : A hybrid branch fusion strategy for code size reduction",
+"authors":"Rodrigo Rocha, Charitha Saumya, Kirshanthan Sundararajah, Pavlos Petoumenos, Milind Kulkarni, Michael O'Boyle",
+"conference":"CC",
+"year":2023,
+"award":null,
+"keywords":["compiler","optimization","code size","function merging","branch fusion"],
+"citations":0,
+"links": [
+],
+},
+{
 "title":"Risotto: A dynamic binary translator for weak memory model architectures",
 "authors":"Redha Gouicem, Dennis Sprokholt, Jasper Ruehl, Rodrigo Rocha, Tom Spink, Soham Chakraborty, Pramod Bhatotia",
 "conference":"ASPLOS",
