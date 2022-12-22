@@ -30,6 +30,9 @@ var papers = [
 "keywords":["binary translation", "compiler","memory model","QEMU"],
 "citations":0,
 "links": [
+  { "name":"pdf", "url":"papers/asplos23risotto.pdf"},
+  { "name":"bibtex", "url":"papers/asplos23risotto.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1145/3567955.3567962"},
 ],
 },
 {
