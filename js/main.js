@@ -6,7 +6,7 @@ var data = {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       borderColor: 'rgba(0, 0, 0, 0.7)',
       borderWidth: 1,
-      data: [0, 5, 11, 27, 22, 31, 59, 64],
+      data: [0, 5, 11, 28, 19, 30,  64, 77],
     }]
 };
 var options = {
@@ -15,7 +15,7 @@ var options = {
     scales: {
         yAxes: [{
             ticks: {
-                max: 65,
+                max: 80,
                 min: 0,
                 stepSize: 5,
             },
