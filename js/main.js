@@ -17,7 +17,7 @@ var options = {
             ticks: {
                 max: 80,
                 min: 0,
-                stepSize: 5,
+                stepSize: 10,
             },
             stacked: false
         }],
