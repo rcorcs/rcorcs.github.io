@@ -10,6 +10,7 @@ var conferences = {
 "SBAC-PADW":"Workshops on Computer Architecture and High Performance Computing",
 "SBLP":"Brazilian Symposium on Programming Languages",
 "SBPO":"Brazilian Symposium of Operational Research",
+"ICCC":"International Conference on Computational Creativity",
 };
 
 var journals = {
@@ -53,7 +54,7 @@ var papers = [
 "year":2022,
 "award":null,
 "keywords":["binary translation", "compiler","memory model","LLVM"],
-"citations":0,
+"citations":1,
 "links": [
   { "name":"pdf", "url":"papers/pldi22lasagna.pdf"},
   { "name":"bibtex", "url":"papers/pldi22lasagna.bib"},
@@ -67,7 +68,7 @@ var papers = [
 "year":2022,
 "award":null,
 "keywords":["compiler","optimization","code size","loop rolling","loop unrolling","loop optimization"],
-"citations":1,
+"citations":5,
 "links": [
   { "name":"pdf", "url":"papers/cgo22rolag.pdf"},
   { "name":"bibtex", "url":"papers/cgo22rolag.bib"},
@@ -81,7 +82,7 @@ var papers = [
 "year":2022,
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":0,
+"citations":1,
 "links": [
   { "name":"pdf", "url":"papers/cgo22f3m.pdf"},
   { "name":"bibtex", "url":"papers/cgo22f3m.bib"},
@@ -106,7 +107,7 @@ var papers = [
 "year":2021,
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":5,
+"citations":9,
 "links": [
   { "name":"pdf", "url":"papers/lctes21hyfm.pdf"},
   { "name":"bibtex", "url":"papers/lctes21hyfm.bib"},
@@ -120,7 +121,7 @@ var papers = [
 "year":2021,
 "award":null,
 "keywords":["compiler","optimization","code size","function inlining","IPO","link time","LTO"],
-"citations":3,
+"citations":7,
 "links": [
   { "name":"pdf", "url":"papers/sblp21inlining.pdf"},
   { "name":"bibtex", "url":"papers/sblp21inlining.bib"},
@@ -134,7 +135,7 @@ var papers = [
 "year":2020,
 "award":null,
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":16,
+"citations":20,
 "links": [
   { "name":"pdf", "url":"papers/pldi20salssa.pdf"},
   { "name":"bibtex", "url":"papers/pldi20salssa.bib"},
@@ -148,7 +149,7 @@ var papers = [
 "year":2020,
 "award":null,
 "keywords":["compiler","optimization","SIMD","vectorization","SLP","loop","unrolling"],
-"citations":10,
+"citations":15,
 "links": [
   { "name":"pdf", "url":"papers/cc20valu.pdf"},
   { "name":"bibtex", "url":"papers/cc20valu.bib"},
@@ -170,7 +171,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=sOCFYfF3iwE", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","code size","function merging","IPO","link time","LTO"],
-"citations":24,
+"citations":27,
 "highlight":1,
 },
 {
@@ -184,7 +185,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1109/CGO.2019.8661192"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":15,
+"citations":16,
 },
 {
 "title":"VW-SLP: Auto-vectorization with adaptive vector width",
@@ -198,7 +199,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=d5LgjCDkkB0", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":15,
+"citations":19,
 "highlight":2,
 },
 {
@@ -213,7 +214,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=gIEn34LvyNo", "img":"img/youtube.png"}
 ],
 "keywords":["compiler","optimization","SIMD","vectorization","SLP"],
-"citations":14,
+"citations":16,
 },
 {
 "title":"Automatic parallelization of recursive functions with rewriting rules",
@@ -240,7 +241,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.1002/cpe.4053"},
 ],
 "keywords":["parallelism","tiling","optimization","stencil","skeletons","GPU"],
-"citations":14,
+"citations":17,
 },
 {
 "title":"Real-time video denoising on multicores and GPUs with Kalman-based and bilateral filters fusion",
@@ -253,7 +254,7 @@ var papers = [
   { "name":"video", "url":"https://www.youtube.com/watch?v=oID9Rbf6OBw", "img":"img/youtube.png"},
 ],
 "keywords":["image processing","video processing","denoising","GPU","multicore"],
-"citations":11,
+"citations":12,
 },
 {
 "title":"Automatic partitioning of stencil computations on heterogeneous systems",
@@ -266,7 +267,7 @@ var papers = [
   { "name":"doi", "url":"https://doi.org/10.1109/SBAC-PADW.2017.16"},
 ],
 "keywords":["parallelism","stencil","skeletons","GPU","multicore"],
-"citations":3,
+"citations":5,
 },
 {
 "title":"Extending OpenACC for efficient stencil code generation and execution by skeleton frameworks",
@@ -294,6 +295,16 @@ var papers = [
 "keywords":["compiler","parallelism","stencil","skeletons","GPU","multicore","OpenACC"],
 "citations":3,
 },
+{
+"title":"Regent-dependent creativity: A domain independent metric for the assessment of creative artifacts",
+"authors":"Celso França, Luıs Góes, Alvaro Amorim, Rodrigo Rocha, Alysson Silva",
+"journal":"ICCC",
+"year":2016,
+"links": [
+],
+"keywords":["computational creativity", "artificial intelligence"],
+"citations":18,
+},  
 {
 "title":"Watershed-ng: an extensible distributed stream processing framework",
 "authors":"Rodrigo Rocha, Bruno Hott, Vinícius Dias, Renato Ferreira, Wagner Meira, Dorgival Guedes",
@@ -330,7 +341,7 @@ var papers = [
   { "name":"doi", "url":"http://dx.doi.org/10.13140/RG.2.1.1233.8640"},
 ],
 "keywords":["graph theory","graphs","distributed","cycle detection"],
-"citations":14,
+"citations":16,
 },
 {
 "title":"Watershed reengineering: making streams programmable",
