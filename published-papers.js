@@ -31,6 +31,9 @@ var papers = [
 "keywords":["compiler","optimization","code size","function merging","branch fusion"],
 "citations":0,
 "links": [
+  { "name":"pdf", "url":"papers/cc23hybf.pdf"},
+  { "name":"bibtex", "url":"papers/cc23hybf.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1145/3578360.3580267"},
 ],
 },
 {
