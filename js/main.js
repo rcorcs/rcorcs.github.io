@@ -6,7 +6,7 @@ var data = {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       borderColor: 'rgba(0, 0, 0, 0.7)',
       borderWidth: 1,
-      data: [0, 5, 11, 28, 21, 29,  63, 73, 4],
+      data: [0, 5, 11, 27, 21, 31,  60, 76, 42],
     }]
 };
 var options = {
