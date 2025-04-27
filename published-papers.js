@@ -11,6 +11,7 @@ var conferences = {
 "SBLP":"Brazilian Symposium on Programming Languages",
 "SBPO":"Brazilian Symposium of Operational Research",
 "ICCC":"International Conference on Computational Creativity",
+"COLM":"Conference on Language Modeling"
 };
 
 var journals = {
@@ -20,8 +21,35 @@ var journals = {
 "Thesis":"PhD Thesis, The University of Edinburgh",
 };
 
-
 var papers = [
+{
+"title":"Forklift: An extensible neural lifter",
+"authors":"Jordi Armengol-Estapé, Rodrigo Rocha, Jackson Woodruff, Pasquale Minervini, Michael O'Boyle",
+"conference":"COLM",
+"year":2024,
+"award":null,
+"keywords":["binary translation","transformer","large language model","LLM"],
+"citations":0,
+"links": [
+  { "name":"pdf", "url":"papers/colm24forklift.pdf"},
+  { "name":"bibtex", "url":"papers/colm24forklift.bib"},
+  { "name":"doi", "url":"https://doi.org/10.48550/arXiv.2404.16041"},
+],
+},
+{
+"title":"Toast: A heterogeneous memory management system",
+"authors":"Maurice Bailleu, Dimitrios Stavrakakis, Rodrigo Rocha, Soham Chakraborty, Deepak Garg, Pramod Bhatotia",
+"conference":"PACT",
+"year":2024,
+"award":null,
+"keywords":["memory management", "heterogeneous memory", "memory protection"],
+"citations":1,
+"links": [
+  { "name":"pdf", "url":"papers/pact24toast.pdf"},
+  { "name":"bibtex", "url":"papers/pact24toast.bib"},
+  { "name":"doi", "url":"https://doi.org/10.1145/3656019.3676944"},
+],
+},
 {
 "title":"HyBF : A hybrid branch fusion strategy for code size reduction",
 "authors":"Rodrigo Rocha, Charitha Saumya, Kirshanthan Sundararajah, Pavlos Petoumenos, Milind Kulkarni, Michael O'Boyle",
