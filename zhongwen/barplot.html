@@ -27,6 +27,38 @@
       margin-bottom: 16px;
     }
 
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      max-width: 1100px;
+    }
+
+    .mode-group {
+      display: inline-flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mode-btn {
+      padding: 8px 12px;
+      border: 1px solid #999;
+      border-radius: 999px;
+      background: #fff;
+      color: #111;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .mode-btn.active {
+      background: #2f5aa8;
+      color: #fff;
+      border-color: #2f5aa8;
+    }
+
     #chart-wrap {
       width: 100%;
       max-width: 1100px;
@@ -114,6 +146,11 @@
         font-size: 13px;
       }
 
+      .mode-btn {
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+
       #tooltip {
         font-size: 12px;
         white-space: normal;
@@ -123,8 +160,12 @@
   </style>
 </head>
 <body>
-  <h1>Accumulated vocabulary by category</h1>
-  <div class="hint">Each date shows the accumulated total words for each category.</div>
+  <h1>Vocabulary totals by category</h1>
+  <div class="hint">Switch between accumulated totals and gains relative to the first date.</div>
+
+  <div class="top-controls">
+    <div class="mode-group" id="modeControls"></div>
+  </div>
 
   <div id="chart-wrap">
     <div id="legend" class="legend"></div>
@@ -146,6 +187,7 @@
     }
 
     const [A, B, C] = categories;
+    let mode = "absolute"; // "absolute" | "gain"
 
     const colors = d3.scaleOrdinal()
       .domain(categories)
@@ -183,8 +225,21 @@
       };
     }
 
-    function buildPlotData() {
+    function buildAbsoluteData() {
       return timelineData.map(totalsFromEntry);
+    }
+
+    function buildPlotData() {
+      const absolute = buildAbsoluteData();
+      if (mode === "absolute") return absolute;
+
+      const base = absolute[0];
+      return absolute.map(d => ({
+        date: d.date,
+        [A]: d[A] - base[A],
+        [B]: d[B] - base[B],
+        [C]: d[C] - base[C]
+      }));
     }
 
     function buildLegend() {
@@ -205,6 +260,30 @@
         item.appendChild(swatch);
         item.appendChild(label);
         legend.appendChild(item);
+      }
+    }
+
+    function renderModeControls() {
+      const container = document.getElementById("modeControls");
+      container.innerHTML = "";
+
+      const modes = [
+        { key: "absolute", label: "Accumulated" },
+        { key: "gain", label: "Gain vs first date" }
+      ];
+
+      for (const item of modes) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "mode-btn";
+        btn.textContent = item.label;
+        if (mode === item.key) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+          mode = item.key;
+          renderModeControls();
+          renderChart();
+        });
+        container.appendChild(btn);
       }
     }
 
@@ -243,13 +322,12 @@
       chartEl.innerHTML = "";
 
       const data = buildPlotData();
-
       const width = chartEl.clientWidth;
       const height = chartEl.clientHeight;
 
       const margin = width < 700
-        ? { top: 20, right: 16, bottom: 70, left: 52 }
-        : { top: 20, right: 24, bottom: 70, left: 64 };
+        ? { top: 20, right: 16, bottom: 70, left: 56 }
+        : { top: 20, right: 24, bottom: 70, left: 72 };
 
       const innerWidth = width - margin.left - margin.right;
       const innerHeight = height - margin.top - margin.bottom;
@@ -272,10 +350,12 @@
         .range([0, x0.bandwidth()])
         .padding(0.12);
 
-      const yMax = d3.max(data, d => d3.max(categories, key => d[key])) || 0;
+      const flatValues = data.flatMap(d => categories.map(key => d[key]));
+      const minVal = Math.min(0, d3.min(flatValues) ?? 0);
+      const maxVal = Math.max(0, d3.max(flatValues) ?? 0);
 
       const y = d3.scaleLinear()
-        .domain([0, yMax * 1.08])
+        .domain([minVal, maxVal === minVal ? maxVal + 1 : maxVal * 1.08])
         .nice()
         .range([innerHeight, 0]);
 
@@ -294,7 +374,7 @@
 
       const xAxisG = g.append("g")
         .attr("class", "axis")
-        .attr("transform", `translate(0,${innerHeight})`)
+        .attr("transform", `translate(0,${y(0)})`)
         .call(xAxis);
 
       if (width < 700 && data.length > 4) {
@@ -315,7 +395,7 @@
         .attr("fill", "#111")
         .attr("font-size", width < 700 ? 12 : 13)
         .attr("font-weight", 700)
-        .text("Words");
+        .text(mode === "absolute" ? "Words" : "Gain in words");
 
       const grouped = g.selectAll(".date-group")
         .data(data)
@@ -333,9 +413,9 @@
         .enter()
         .append("rect")
         .attr("x", d => x1(d.category))
-        .attr("y", d => y(d.value))
+        .attr("y", d => Math.min(y(d.value), y(0)))
         .attr("width", x1.bandwidth())
-        .attr("height", d => innerHeight - y(d.value))
+        .attr("height", d => Math.abs(y(d.value) - y(0)))
         .attr("rx", 4)
         .attr("fill", d => colors(d.category))
         .on("mouseover", function(event, d) {
@@ -343,7 +423,7 @@
           showTooltip(
             `<div class="title">${d.category}</div>` +
             `<div>Date: ${d.date}</div>` +
-            `<div>Total words: ${formatNumber(d.value)}</div>`
+            `<div>${mode === "absolute" ? "Total words" : "Gain vs first date"}: ${formatNumber(d.value)}</div>`
           );
           moveTooltipFromEvent(event);
         })
@@ -366,7 +446,7 @@
           .append("text")
           .attr("class", "value-label")
           .attr("x", d => x1(d.category) + x1.bandwidth() / 2)
-          .attr("y", d => y(d.value) - 6)
+          .attr("y", d => d.value >= 0 ? y(d.value) - 6 : y(d.value) + 16)
           .attr("text-anchor", "middle")
           .attr("font-size", 11)
           .attr("fill", "#333")
@@ -375,6 +455,7 @@
     }
 
     buildLegend();
+    renderModeControls();
     renderChart();
 
     window.addEventListener("resize", function() {
