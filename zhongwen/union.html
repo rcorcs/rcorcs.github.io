@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unique Vocabulary Union Over Time</title>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="./venn-data.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 16px;
+      background: #fff;
+      color: #111;
+    }
+
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 1.5rem;
+    }
+
+    .hint {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 16px;
+      max-width: 900px;
+    }
+
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 12px 0;
+      max-width: 1100px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 12px 0;
+      max-width: 1100px;
+    }
+
+    .toggle-btn,
+    .mode-btn {
+      padding: 10px 14px;
+      border: 1px solid #999;
+      border-radius: 999px;
+      background: #fff;
+      color: #111;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .toggle-btn.active {
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .mode-btn.active {
+      background: #2f5aa8;
+      color: #fff;
+      border-color: #2f5aa8;
+    }
+
+    #summary {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 12px;
+      min-height: 20px;
+    }
+
+    #chart-wrap {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    #chart {
+      width: 100%;
+      height: 560px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .axis path,
+    .axis line {
+      stroke: #999;
+    }
+
+    .grid line {
+      stroke: #e5e5e5;
+    }
+
+    .grid path {
+      stroke: none;
+    }
+
+    .line-path {
+      fill: none;
+      stroke-width: 3;
+    }
+
+    .bar {
+      cursor: pointer;
+    }
+
+    .point {
+      stroke: #fff;
+      stroke-width: 2px;
+      cursor: pointer;
+    }
+
+    #tooltip {
+      position: fixed;
+      pointer-events: none;
+      background: rgba(20, 20, 20, 0.95);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.4;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      white-space: nowrap;
+      z-index: 10000;
+      transition: opacity 80ms ease;
+    }
+
+    #tooltip .title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        margin: 12px;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+      }
+
+      #chart {
+        height: 420px;
+      }
+
+      .toggle-btn,
+      .mode-btn {
+        font-size: 13px;
+        padding: 8px 12px;
+      }
+
+      #tooltip {
+        font-size: 12px;
+        white-space: normal;
+        max-width: min(260px, 82vw);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Unique words over time</h1>
+  <div class="hint">
+    Toggle categories on or off. Switch between accumulated totals and gains relative to the first date.
+  </div>
+
+  <div class="top-controls" id="modeControls"></div>
+  <div id="controls" class="controls"></div>
+  <div id="summary"></div>
+
+  <div id="chart-wrap">
+    <div id="chart"></div>
+  </div>
+
+  <div id="tooltip"></div>
+
+  <script>
+    const vennConfig = window.vennConfig;
+    const categories = vennConfig.categories;
+    const timelineData = vennConfig.timeline;
+
+    if (!Array.isArray(categories) || categories.length !== 3) {
+      throw new Error("vennConfig.categories must contain exactly 3 category names.");
+    }
+    if (!Array.isArray(timelineData) || timelineData.length === 0) {
+      throw new Error("vennConfig.timeline must be a non-empty array.");
+    }
+
+    const palette = {
+      [categories[0]]: "#8fb7d8",
+      [categories[1]]: "#e6b992",
+      [categories[2]]: "#9fca9c",
+      line: "#2f5aa8",
+      bar: "#a9c1ea"
+    };
+
+    const activeCategories = new Set(categories);
+    let mode = "absolute"; // "absolute" | "gain"
+
+    function regionKey() {
+      return Array.from(arguments).join("_");
+    }
+
+    function getRegionValue(regions, key) {
+      const value = regions[key];
+      return typeof value === "number" ? value : 0;
+    }
+
+    function formatNumber(n) {
+      return n.toLocaleString();
+    }
+
+    function showTooltip(html) {
+      const tooltip = document.getElementById("tooltip");
+      tooltip.innerHTML = html;
+      tooltip.style.opacity = "1";
+    }
+
+    function moveTooltipFromEvent(evt) {
+      const tooltip = document.getElementById("tooltip");
+      const rect = tooltip.getBoundingClientRect();
+
+      let left = evt.clientX + 14;
+      let top = evt.clientY - rect.height - 14;
+
+      if (left + rect.width > window.innerWidth - 10) {
+        left = window.innerWidth - rect.width - 10;
+      }
+      if (left < 10) left = 10;
+
+      if (top < 10) {
+        top = evt.clientY + 14;
+      }
+
+      tooltip.style.left = left + "px";
+      tooltip.style.top = top + "px";
+    }
+
+    function hideTooltip() {
+      document.getElementById("tooltip").style.opacity = "0";
+    }
+
+    function computeEntryUnion(entry, included) {
+      const [A, B, C] = categories;
+      const r = entry.regions;
+
+      const aOnly = getRegionValue(r, regionKey(A, "only"));
+      const bOnly = getRegionValue(r, regionKey(B, "only"));
+      const cOnly = getRegionValue(r, regionKey(C, "only"));
+      const abOnly = getRegionValue(r, regionKey(A, B, "only"));
+      const acOnly = getRegionValue(r, regionKey(A, C, "only"));
+      const bcOnly = getRegionValue(r, regionKey(B, C, "only"));
+      const abc = getRegionValue(r, regionKey(A, B, C));
+
+      const hasA = included.has(A);
+      const hasB = included.has(B);
+      const hasC = included.has(C);
+
+      let total = 0;
+
+      if (hasA) total += aOnly;
+      if (hasB) total += bOnly;
+      if (hasC) total += cOnly;
+
+      if (hasA && hasB) total += abOnly;
+      if (hasA && hasC) total += acOnly;
+      if (hasB && hasC) total += bcOnly;
+
+      if (hasA && hasB && hasC) total += abc;
+
+      return total;
+    }
+
+    function buildAbsoluteData() {
+      return timelineData.map(entry => ({
+        date: entry.date,
+        value: computeEntryUnion(entry, activeCategories)
+      }));
+    }
+
+    function buildPlotData() {
+      const absolute = buildAbsoluteData();
+      if (mode === "absolute") return absolute;
+
+      const base = absolute[0].value;
+      return absolute.map(d => ({
+        date: d.date,
+        value: d.value - base
+      }));
+    }
+
+    function updateSummary() {
+      const selected = categories.filter(c => activeCategories.has(c));
+      const summary = document.getElementById("summary");
+
+      if (selected.length === 0) {
+        summary.textContent = "No categories selected.";
+        return;
+      }
+
+      summary.textContent = "Included: " + selected.join(", ");
+    }
+
+    function renderModeControls() {
+      const container = document.getElementById("modeControls");
+      container.innerHTML = "";
+
+      const modes = [
+        { key: "absolute", label: "Accumulated" },
+        { key: "gain", label: "Gain vs first date" }
+      ];
+
+      for (const item of modes) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "mode-btn";
+        btn.textContent = item.label;
+        if (mode === item.key) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+          mode = item.key;
+          renderModeControls();
+          renderChart();
+        });
+        container.appendChild(btn);
+      }
+    }
+
+    function renderControls() {
+      const controls = document.getElementById("controls");
+      controls.innerHTML = "";
+
+      categories.forEach(category => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "toggle-btn";
+        btn.textContent = category;
+
+        const applyState = () => {
+          const isActive = activeCategories.has(category);
+          btn.classList.toggle("active", isActive);
+          btn.style.background = isActive ? palette[category] : "#fff";
+          btn.style.color = isActive ? "#fff" : "#111";
+        };
+
+        btn.addEventListener("click", () => {
+          if (activeCategories.has(category)) {
+            if (activeCategories.size === 1) return;
+            activeCategories.delete(category);
+          } else {
+            activeCategories.add(category);
+          }
+          renderControls();
+          updateSummary();
+          renderChart();
+        });
+
+        applyState();
+        controls.appendChild(btn);
+      });
+    }
+
+    function renderChart() {
+      const chartEl = document.getElementById("chart");
+      chartEl.innerHTML = "";
+
+      const data = buildPlotData();
+      const width = chartEl.clientWidth;
+      const height = chartEl.clientHeight;
+
+      const margin = width < 700
+        ? { top: 20, right: 16, bottom: 70, left: 56 }
+        : { top: 20, right: 24, bottom: 70, left: 72 };
+
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+
+      const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      const g = svg.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      const x = d3.scalePoint()
+        .domain(data.map(d => d.date))
+        .range([0, innerWidth])
+        .padding(0.5);
+
+      const xBar = d3.scaleBand()
+        .domain(data.map(d => d.date))
+        .range([0, innerWidth])
+        .padding(0.45);
+
+      const values = data.map(d => d.value);
+      const minVal = Math.min(0, d3.min(values) ?? 0);
+      const maxVal = Math.max(0, d3.max(values) ?? 0);
+
+      const y = d3.scaleLinear()
+        .domain([minVal, maxVal === minVal ? maxVal + 1 : maxVal * 1.08])
+        .nice()
+        .range([innerHeight, 0]);
+
+      const grid = d3.axisLeft(y)
+        .tickSize(-innerWidth)
+        .tickFormat("");
+
+      g.append("g")
+        .attr("class", "grid")
+        .call(grid);
+
+      const xAxis = d3.axisBottom(x);
+      const yAxis = d3.axisLeft(y)
+        .ticks(width < 700 ? 5 : 7)
+        .tickFormat(d3.format(","));
+
+      const xAxisG = g.append("g")
+        .attr("class", "axis")
+        .attr("transform", `translate(0,${y(0)})`)
+        .call(xAxis);
+
+      if (width < 700 && data.length > 4) {
+        xAxisG.selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-0.6em")
+          .attr("dy", "0.1em")
+          .attr("transform", "rotate(-35)");
+      }
+
+      g.append("g")
+        .attr("class", "axis")
+        .call(yAxis);
+
+      g.append("text")
+        .attr("x", 0)
+        .attr("y", -6)
+        .attr("fill", "#111")
+        .attr("font-size", width < 700 ? 12 : 13)
+        .attr("font-weight", 700)
+        .text(mode === "absolute" ? "Unique words" : "Gain in unique words");
+
+      g.selectAll(".bar")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", d => xBar(d.date))
+        .attr("y", d => Math.min(y(d.value), y(0)))
+        .attr("width", xBar.bandwidth())
+        .attr("height", d => Math.abs(y(d.value) - y(0)))
+        .attr("rx", 5)
+        .attr("fill", palette.bar)
+        .attr("opacity", 0.85)
+        .on("mouseover", function(event, d) {
+          d3.select(this).attr("opacity", 1);
+          showTooltip(
+            `<div class="title">Union of selected categories</div>` +
+            `<div>Date: ${d.date}</div>` +
+            `<div>${mode === "absolute" ? "Unique words" : "Gain vs first date"}: ${formatNumber(d.value)}</div>`
+          );
+          moveTooltipFromEvent(event);
+        })
+        .on("mousemove", function(event) {
+          moveTooltipFromEvent(event);
+        })
+        .on("mouseout", function() {
+          d3.select(this).attr("opacity", 0.85);
+          hideTooltip();
+        });
+
+      const line = d3.line()
+        .x(d => x(d.date))
+        .y(d => y(d.value));
+
+      g.append("path")
+        .datum(data)
+        .attr("class", "line-path")
+        .attr("stroke", palette.line)
+        .attr("d", line);
+
+      g.selectAll(".point")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("class", "point")
+        .attr("cx", d => x(d.date))
+        .attr("cy", d => y(d.value))
+        .attr("r", width < 700 ? 4 : 5)
+        .attr("fill", palette.line)
+        .on("mouseover", function(event, d) {
+          d3.select(this).attr("r", width < 700 ? 5.5 : 7);
+          showTooltip(
+            `<div class="title">Union of selected categories</div>` +
+            `<div>Date: ${d.date}</div>` +
+            `<div>${mode === "absolute" ? "Unique words" : "Gain vs first date"}: ${formatNumber(d.value)}</div>`
+          );
+          moveTooltipFromEvent(event);
+        })
+        .on("mousemove", function(event) {
+          moveTooltipFromEvent(event);
+        })
+        .on("mouseout", function() {
+          d3.select(this).attr("r", width < 700 ? 4 : 5);
+          hideTooltip();
+        });
+
+      if (width >= 820) {
+        g.selectAll(".value-label")
+          .data(data)
+          .enter()
+          .append("text")
+          .attr("class", "value-label")
+          .attr("x", d => x(d.date))
+          .attr("y", d => d.value >= 0 ? y(d.value) - 10 : y(d.value) + 16)
+          .attr("text-anchor", "middle")
+          .attr("font-size", 11)
+          .attr("fill", "#333")
+          .text(d => formatNumber(d.value));
+      }
+    }
+
+    renderModeControls();
+    renderControls();
+    updateSummary();
+    renderChart();
+
+    window.addEventListener("resize", function() {
+      renderChart();
+    });
+  </script>
+</body>
+</html>
