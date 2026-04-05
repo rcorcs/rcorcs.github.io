@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vocabulary Totals Over Time</title>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="./venn-data.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 16px;
+      background: #fff;
+      color: #111;
+    }
+
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 1.5rem;
+    }
+
+    .hint {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    #chart-wrap {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    #chart {
+      width: 100%;
+      height: 560px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .axis path,
+    .axis line {
+      stroke: #999;
+    }
+
+    .grid line {
+      stroke: #e5e5e5;
+    }
+
+    .grid path {
+      stroke: none;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 12px 0 14px;
+      font-size: 14px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.15);
+    }
+
+    #tooltip {
+      position: fixed;
+      pointer-events: none;
+      background: rgba(20, 20, 20, 0.95);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.4;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      white-space: nowrap;
+      z-index: 10000;
+      transition: opacity 80ms ease;
+    }
+
+    #tooltip .title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        margin: 12px;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+      }
+
+      #chart {
+        height: 420px;
+      }
+
+      .legend {
+        gap: 10px;
+        font-size: 13px;
+      }
+
+      #tooltip {
+        font-size: 12px;
+        white-space: normal;
+        max-width: min(260px, 82vw);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Accumulated vocabulary by category</h1>
+  <div class="hint">Each date shows the accumulated total words for each category.</div>
+
+  <div id="chart-wrap">
+    <div id="legend" class="legend"></div>
+    <div id="chart"></div>
+  </div>
+
+  <div id="tooltip"></div>
+
+  <script>
+    const vennConfig = window.vennConfig;
+    const categories = vennConfig.categories;
+    const timelineData = vennConfig.timeline;
+
+    if (!Array.isArray(categories) || categories.length !== 3) {
+      throw new Error("vennConfig.categories must contain exactly 3 category names.");
+    }
+    if (!Array.isArray(timelineData) || timelineData.length === 0) {
+      throw new Error("vennConfig.timeline must be a non-empty array.");
+    }
+
+    const [A, B, C] = categories;
+
+    const colors = d3.scaleOrdinal()
+      .domain(categories)
+      .range(["#8fb7d8", "#e6b992", "#9fca9c"]);
+
+    function regionKey() {
+      return Array.from(arguments).join("_");
+    }
+
+    function getRegionValue(regions, key) {
+      const value = regions[key];
+      return typeof value === "number" ? value : 0;
+    }
+
+    function formatNumber(n) {
+      return n.toLocaleString();
+    }
+
+    function totalsFromEntry(entry) {
+      const r = entry.regions;
+
+      const aOnly = getRegionValue(r, regionKey(A, "only"));
+      const bOnly = getRegionValue(r, regionKey(B, "only"));
+      const cOnly = getRegionValue(r, regionKey(C, "only"));
+      const abOnly = getRegionValue(r, regionKey(A, B, "only"));
+      const acOnly = getRegionValue(r, regionKey(A, C, "only"));
+      const bcOnly = getRegionValue(r, regionKey(B, C, "only"));
+      const abc = getRegionValue(r, regionKey(A, B, C));
+
+      return {
+        date: entry.date,
+        [A]: aOnly + abOnly + acOnly + abc,
+        [B]: bOnly + abOnly + bcOnly + abc,
+        [C]: cOnly + acOnly + bcOnly + abc
+      };
+    }
+
+    function buildPlotData() {
+      return timelineData.map(totalsFromEntry);
+    }
+
+    function buildLegend() {
+      const legend = document.getElementById("legend");
+      legend.innerHTML = "";
+
+      for (const category of categories) {
+        const item = document.createElement("div");
+        item.className = "legend-item";
+
+        const swatch = document.createElement("span");
+        swatch.className = "legend-swatch";
+        swatch.style.background = colors(category);
+
+        const label = document.createElement("span");
+        label.textContent = category;
+
+        item.appendChild(swatch);
+        item.appendChild(label);
+        legend.appendChild(item);
+      }
+    }
+
+    function showTooltip(html) {
+      const tooltip = document.getElementById("tooltip");
+      tooltip.innerHTML = html;
+      tooltip.style.opacity = "1";
+    }
+
+    function moveTooltipFromEvent(evt) {
+      const tooltip = document.getElementById("tooltip");
+      const rect = tooltip.getBoundingClientRect();
+
+      let left = evt.clientX + 14;
+      let top = evt.clientY - rect.height - 14;
+
+      if (left + rect.width > window.innerWidth - 10) {
+        left = window.innerWidth - rect.width - 10;
+      }
+      if (left < 10) left = 10;
+
+      if (top < 10) {
+        top = evt.clientY + 14;
+      }
+
+      tooltip.style.left = left + "px";
+      tooltip.style.top = top + "px";
+    }
+
+    function hideTooltip() {
+      document.getElementById("tooltip").style.opacity = "0";
+    }
+
+    function renderChart() {
+      const chartEl = document.getElementById("chart");
+      chartEl.innerHTML = "";
+
+      const data = buildPlotData();
+
+      const width = chartEl.clientWidth;
+      const height = chartEl.clientHeight;
+
+      const margin = width < 700
+        ? { top: 20, right: 16, bottom: 70, left: 52 }
+        : { top: 20, right: 24, bottom: 70, left: 64 };
+
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+
+      const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      const g = svg.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      const x0 = d3.scaleBand()
+        .domain(data.map(d => d.date))
+        .range([0, innerWidth])
+        .paddingInner(0.2);
+
+      const x1 = d3.scaleBand()
+        .domain(categories)
+        .range([0, x0.bandwidth()])
+        .padding(0.12);
+
+      const yMax = d3.max(data, d => d3.max(categories, key => d[key])) || 0;
+
+      const y = d3.scaleLinear()
+        .domain([0, yMax * 1.08])
+        .nice()
+        .range([innerHeight, 0]);
+
+      const grid = d3.axisLeft(y)
+        .tickSize(-innerWidth)
+        .tickFormat("");
+
+      g.append("g")
+        .attr("class", "grid")
+        .call(grid);
+
+      const xAxis = d3.axisBottom(x0);
+      const yAxis = d3.axisLeft(y)
+        .ticks(width < 700 ? 5 : 7)
+        .tickFormat(d3.format(","));
+
+      const xAxisG = g.append("g")
+        .attr("class", "axis")
+        .attr("transform", `translate(0,${innerHeight})`)
+        .call(xAxis);
+
+      if (width < 700 && data.length > 4) {
+        xAxisG.selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-0.6em")
+          .attr("dy", "0.1em")
+          .attr("transform", "rotate(-35)");
+      }
+
+      g.append("g")
+        .attr("class", "axis")
+        .call(yAxis);
+
+      g.append("text")
+        .attr("x", 0)
+        .attr("y", -6)
+        .attr("fill", "#111")
+        .attr("font-size", width < 700 ? 12 : 13)
+        .attr("font-weight", 700)
+        .text("Words");
+
+      const grouped = g.selectAll(".date-group")
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("class", "date-group")
+        .attr("transform", d => `translate(${x0(d.date)},0)`);
+
+      grouped.selectAll("rect")
+        .data(d => categories.map(key => ({
+          date: d.date,
+          category: key,
+          value: d[key]
+        })))
+        .enter()
+        .append("rect")
+        .attr("x", d => x1(d.category))
+        .attr("y", d => y(d.value))
+        .attr("width", x1.bandwidth())
+        .attr("height", d => innerHeight - y(d.value))
+        .attr("rx", 4)
+        .attr("fill", d => colors(d.category))
+        .on("mouseover", function(event, d) {
+          d3.select(this).attr("opacity", 0.8);
+          showTooltip(
+            `<div class="title">${d.category}</div>` +
+            `<div>Date: ${d.date}</div>` +
+            `<div>Total words: ${formatNumber(d.value)}</div>`
+          );
+          moveTooltipFromEvent(event);
+        })
+        .on("mousemove", function(event) {
+          moveTooltipFromEvent(event);
+        })
+        .on("mouseout", function() {
+          d3.select(this).attr("opacity", 1);
+          hideTooltip();
+        });
+
+      if (width >= 820) {
+        grouped.selectAll(".value-label")
+          .data(d => categories.map(key => ({
+            date: d.date,
+            category: key,
+            value: d[key]
+          })))
+          .enter()
+          .append("text")
+          .attr("class", "value-label")
+          .attr("x", d => x1(d.category) + x1.bandwidth() / 2)
+          .attr("y", d => y(d.value) - 6)
+          .attr("text-anchor", "middle")
+          .attr("font-size", 11)
+          .attr("fill", "#333")
+          .text(d => formatNumber(d.value));
+      }
+    }
+
+    buildLegend();
+    renderChart();
+
+    window.addEventListener("resize", function() {
+      renderChart();
+    });
+  </script>
+</body>
+</html>
