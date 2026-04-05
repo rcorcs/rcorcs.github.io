@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Venn Timeline</title>
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/venn.js@0.2.20/build/venn.min.js"></script>
+  <script src="./venn-data.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 24px;
+      line-height: 1.4;
+      background: #fff;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    .controls {
+      margin: 16px 0 24px;
+      max-width: 960px;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    #dateSlider {
+      flex: 1;
+    }
+
+    #dateLabel {
+      min-width: 120px;
+      font-weight: bold;
+    }
+
+    #venn {
+      width: 980px;
+      height: 700px;
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-sizing: border-box;
+      position: relative;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .venn-area path {
+      fill-opacity: 0.35;
+      stroke-width: 2px;
+      transition: fill-opacity 120ms ease, stroke-width 120ms ease;
+    }
+
+    .venn-circle path {
+      fill-opacity: 0.25;
+    }
+
+    .hint {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .set-label {
+      font-size: 22px;
+      font-weight: 700;
+      fill: #111;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+    }
+
+    #tooltip {
+      position: fixed;
+      pointer-events: none;
+      background: rgba(20, 20, 20, 0.94);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      white-space: nowrap;
+      z-index: 10000;
+      transition: opacity 80ms ease;
+    }
+
+    #tooltip .title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>3-set Venn over time</h1>
+  <div class="hint">Move the slider to switch dates. Hover a region to see count and percentages.</div>
+
+  <div class="controls">
+    <div class="slider-row">
+      <button id="prevBtn" type="button">← Prev</button>
+      <input id="dateSlider" type="range" min="0" max="0" value="0" step="1" />
+      <button id="nextBtn" type="button">Next →</button>
+      <div id="dateLabel"></div>
+    </div>
+  </div>
+
+  <div id="venn"></div>
+  <div id="tooltip"></div>
+
+  <script>
+    const vennConfig = window.vennConfig;
+    const categories = vennConfig.categories;
+    const timelineData = vennConfig.timeline;
+
+    if (!Array.isArray(categories) || categories.length !== 3) {
+      throw new Error("vennConfig.categories must contain exactly 3 category names.");
+    }
+    if (!Array.isArray(timelineData) || timelineData.length === 0) {
+      throw new Error("vennConfig.timeline must be a non-empty array.");
+    }
+
+    const [A, B, C] = categories;
+
+    function regionKey() {
+      return Array.from(arguments).join("_");
+    }
+
+    function getRegionValue(regions, key) {
+      const value = regions[key];
+      return typeof value === "number" ? value : 0;
+    }
+
+    function formatNumber(n) {
+      return n.toLocaleString();
+    }
+
+    function formatPercent(value, total) {
+      if (!total) return "0.0%";
+      return ((100 * value) / total).toFixed(1) + "%";
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function computeRegionValues(entry) {
+      const r = entry.regions;
+      return {
+        A_only: getRegionValue(r, regionKey(A, "only")),
+        B_only: getRegionValue(r, regionKey(B, "only")),
+        C_only: getRegionValue(r, regionKey(C, "only")),
+        A_B_only: getRegionValue(r, regionKey(A, B, "only")),
+        A_C_only: getRegionValue(r, regionKey(A, C, "only")),
+        B_C_only: getRegionValue(r, regionKey(B, C, "only")),
+        A_B_C: getRegionValue(r, regionKey(A, B, C))
+      };
+    }
+
+    function computeUnionTotal(entry) {
+      const v = computeRegionValues(entry);
+      return (
+        v.A_only +
+        v.B_only +
+        v.C_only +
+        v.A_B_only +
+        v.A_C_only +
+        v.B_C_only +
+        v.A_B_C
+      );
+    }
+
+    function computeSetTotals(entry) {
+      const v = computeRegionValues(entry);
+      return {
+        [A]: v.A_only + v.A_B_only + v.A_C_only + v.A_B_C,
+        [B]: v.B_only + v.A_B_only + v.B_C_only + v.A_B_C,
+        [C]: v.C_only + v.A_C_only + v.B_C_only + v.A_B_C
+      };
+    }
+
+    function toVennInput(entry) {
+      const v = computeRegionValues(entry);
+
+      const totalA = v.A_only + v.A_B_only + v.A_C_only + v.A_B_C;
+      const totalB = v.B_only + v.A_B_only + v.B_C_only + v.A_B_C;
+      const totalC = v.C_only + v.A_C_only + v.B_C_only + v.A_B_C;
+
+      const totalAB = v.A_B_only + v.A_B_C;
+      const totalAC = v.A_C_only + v.A_B_C;
+      const totalBC = v.B_C_only + v.A_B_C;
+
+      return [
+        { sets: [A], size: totalA, label: "" },
+        { sets: [B], size: totalB, label: "" },
+        { sets: [C], size: totalC, label: "" },
+        { sets: [A, B], size: totalAB, label: "" },
+        { sets: [A, C], size: totalAC, label: "" },
+        { sets: [B, C], size: totalBC, label: "" },
+        { sets: [A, B, C], size: v.A_B_C, label: "" }
+      ];
+    }
+
+    function sameSetPair(sets, x, y) {
+      return sets.length === 2 && sets.includes(x) && sets.includes(y);
+    }
+
+    function regionValueFromSets(entry, sets) {
+      if (sets.length === 1) {
+        if (sets[0] === A) return getRegionValue(entry.regions, regionKey(A, "only"));
+        if (sets[0] === B) return getRegionValue(entry.regions, regionKey(B, "only"));
+        if (sets[0] === C) return getRegionValue(entry.regions, regionKey(C, "only"));
+      }
+
+      if (sameSetPair(sets, A, B)) return getRegionValue(entry.regions, regionKey(A, B, "only"));
+      if (sameSetPair(sets, A, C)) return getRegionValue(entry.regions, regionKey(A, C, "only"));
+      if (sameSetPair(sets, B, C)) return getRegionValue(entry.regions, regionKey(B, C, "only"));
+
+      if (sets.length === 3) {
+        return getRegionValue(entry.regions, regionKey(A, B, C));
+      }
+
+      return 0;
+    }
+
+    function regionNameFromSets(sets) {
+      return sets.join(" ∩ ");
+    }
+
+    function tooltipHtml(entry, areaData) {
+      const regionValue = regionValueFromSets(entry, areaData.sets);
+      const unionTotal = computeUnionTotal(entry);
+      const setTotals = computeSetTotals(entry);
+      const regionName = regionNameFromSets(areaData.sets);
+
+      let html =
+        '<div class="title">' + escapeHtml(regionName) + '</div>' +
+        '<div>Count: ' + formatNumber(regionValue) + '</div>' +
+        '<div>Share of union: ' + formatPercent(regionValue, unionTotal) + '</div>';
+
+      for (let i = 0; i < areaData.sets.length; i++) {
+        const s = areaData.sets[i];
+        html += '<div>Share of ' + escapeHtml(s) + ': ' +
+          formatPercent(regionValue, setTotals[s]) + '</div>';
+      }
+
+      return html;
+    }
+
+    function showTooltip(html) {
+      const tooltip = document.getElementById("tooltip");
+      tooltip.innerHTML = html;
+      tooltip.style.opacity = "1";
+    }
+
+    function moveTooltipFromEvent(evt) {
+      const tooltip = document.getElementById("tooltip");
+      const rect = tooltip.getBoundingClientRect();
+
+      let left = evt.clientX + 16;
+      let top = evt.clientY - rect.height - 16;
+
+      if (left + rect.width > window.innerWidth - 12) {
+        left = window.innerWidth - rect.width - 12;
+      }
+      if (left < 12) left = 12;
+
+      if (top < 12) {
+        top = evt.clientY + 16;
+      }
+
+      tooltip.style.left = left + "px";
+      tooltip.style.top = top + "px";
+    }
+
+    function hideTooltip() {
+      const tooltip = document.getElementById("tooltip");
+      tooltip.style.opacity = "0";
+    }
+
+    function centroidFromPath(pathEl) {
+      try {
+        const bbox = pathEl.getBBox();
+        return {
+          x: bbox.x + bbox.width / 2,
+          y: bbox.y + bbox.height / 2
+        };
+      } catch (e) {
+        return { x: 0, y: 0 };
+      }
+    }
+
+    function removeDefaultText(svg) {
+      svg.selectAll(".venn-area text").remove();
+      svg.selectAll(".venn-circle text").remove();
+    }
+
+    function addSetLabels(svg) {
+      svg.selectAll(".venn-area").each(function(areaData) {
+        if (areaData.sets.length !== 1) return;
+
+        const path = d3.select(this).select("path").node();
+        if (!path) return;
+
+        const c = centroidFromPath(path);
+
+        svg.append("text")
+          .attr("class", "set-label")
+          .attr("x", c.x)
+          .attr("y", c.y)
+          .text(areaData.sets[0]);
+      });
+    }
+
+    function bindHover(entry, container) {
+      container.selectAll(".venn-area")
+        .on("mouseover", function(areaData) {
+          d3.select(this).select("path")
+            .style("fill-opacity", 0.5)
+            .style("stroke-width", 3);
+
+          showTooltip(tooltipHtml(entry, areaData));
+          moveTooltipFromEvent(d3.event);
+        })
+        .on("mousemove", function(areaData) {
+          moveTooltipFromEvent(d3.event);
+        })
+        .on("mouseout", function() {
+          d3.select(this).select("path")
+            .style("fill-opacity", null)
+            .style("stroke-width", null);
+
+          hideTooltip();
+        });
+    }
+
+    function renderVenn(entry) {
+      const sets = toVennInput(entry);
+
+      d3.select("#venn").selectAll("svg").remove();
+
+      const chart = venn.VennDiagram()
+        .width(960)
+        .height(680);
+
+      const container = d3.select("#venn");
+      container.datum(sets).call(chart);
+
+      const svg = container.select("svg");
+      removeDefaultText(svg);
+      addSetLabels(svg);
+      bindHover(entry, container);
+    }
+
+    function renderAt(index) {
+      const entry = timelineData[index];
+      document.getElementById("dateLabel").textContent = entry.date;
+      renderVenn(entry);
+    }
+
+    const slider = document.getElementById("dateSlider");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    slider.max = String(timelineData.length - 1);
+    slider.value = "0";
+
+    slider.addEventListener("input", function(e) {
+      renderAt(Number(e.target.value));
+    });
+
+    prevBtn.addEventListener("click", function() {
+      const nextValue = Math.max(0, Number(slider.value) - 1);
+      slider.value = String(nextValue);
+      renderAt(nextValue);
+    });
+
+    nextBtn.addEventListener("click", function() {
+      const nextValue = Math.min(timelineData.length - 1, Number(slider.value) + 1);
+      slider.value = String(nextValue);
+      renderAt(nextValue);
+    });
+
+    renderAt(0);
+  </script>
+</body>
+</html>
