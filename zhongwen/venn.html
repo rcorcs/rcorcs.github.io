@@ -12,42 +12,64 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 24px;
+      margin: 16px;
       line-height: 1.4;
       background: #fff;
+      color: #111;
     }
 
     h1 {
-      margin-bottom: 8px;
+      margin: 0 0 8px 0;
+      font-size: 1.5rem;
+    }
+
+    .hint {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 16px;
     }
 
     .controls {
-      margin: 16px 0 24px;
-      max-width: 960px;
+      margin: 0 0 16px 0;
+      max-width: 1000px;
     }
 
     .slider-row {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-top: 8px;
+    }
+
+    #prevBtn,
+    #nextBtn {
+      font-size: 16px;
+      padding: 8px 12px;
+      border: 1px solid #999;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
     }
 
     #dateSlider {
       flex: 1;
+      min-width: 120px;
     }
 
     #dateLabel {
       min-width: 120px;
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-align: right;
     }
 
     #venn {
-      width: 980px;
-      height: 700px;
-      max-width: 100%;
+      width: 100%;
+      max-width: 1000px;
+      aspect-ratio: 1 / 1;
+      min-height: 320px;
+      max-height: 80vh;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 12px;
       box-sizing: border-box;
       position: relative;
       background: #fff;
@@ -64,13 +86,8 @@
       fill-opacity: 0.25;
     }
 
-    .hint {
-      color: #555;
-      font-size: 14px;
-    }
-
     .set-label {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       fill: #111;
       text-anchor: middle;
@@ -81,10 +98,10 @@
     #tooltip {
       position: fixed;
       pointer-events: none;
-      background: rgba(20, 20, 20, 0.94);
+      background: rgba(20, 20, 20, 0.95);
       color: #fff;
       padding: 10px 12px;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 13px;
       line-height: 1.4;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
@@ -97,6 +114,52 @@
     #tooltip .title {
       font-weight: 700;
       margin-bottom: 4px;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        margin: 12px;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+      }
+
+      .slider-row {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas:
+          "prev slider next"
+          "date date date";
+        gap: 10px;
+        align-items: center;
+      }
+
+      #prevBtn { grid-area: prev; }
+      #dateSlider { grid-area: slider; width: 100%; }
+      #nextBtn { grid-area: next; }
+
+      #dateLabel {
+        grid-area: date;
+        text-align: left;
+        min-width: 0;
+        font-size: 1rem;
+      }
+
+      .set-label {
+        font-size: 16px;
+      }
+
+      #tooltip {
+        font-size: 12px;
+        white-space: normal;
+        max-width: min(260px, 82vw);
+      }
+
+      #venn {
+        min-height: 280px;
+        max-height: 72vh;
+      }
     }
   </style>
 </head>
@@ -270,16 +333,16 @@
       const tooltip = document.getElementById("tooltip");
       const rect = tooltip.getBoundingClientRect();
 
-      let left = evt.clientX + 16;
-      let top = evt.clientY - rect.height - 16;
+      let left = evt.clientX + 14;
+      let top = evt.clientY - rect.height - 14;
 
-      if (left + rect.width > window.innerWidth - 12) {
-        left = window.innerWidth - rect.width - 12;
+      if (left + rect.width > window.innerWidth - 10) {
+        left = window.innerWidth - rect.width - 10;
       }
-      if (left < 12) left = 12;
+      if (left < 10) left = 10;
 
-      if (top < 12) {
-        top = evt.clientY + 16;
+      if (top < 10) {
+        top = evt.clientY + 14;
       }
 
       tooltip.style.left = left + "px";
@@ -287,8 +350,7 @@
     }
 
     function hideTooltip() {
-      const tooltip = document.getElementById("tooltip");
-      tooltip.style.opacity = "0";
+      document.getElementById("tooltip").style.opacity = "0";
     }
 
     function centroidFromPath(pathEl) {
@@ -306,6 +368,13 @@
     function removeDefaultText(svg) {
       svg.selectAll(".venn-area text").remove();
       svg.selectAll(".venn-circle text").remove();
+    }
+
+    function getChartSize() {
+      const el = document.getElementById("venn");
+      const width = el.clientWidth;
+      const height = Math.min(el.clientHeight || width, width);
+      return { width, height };
     }
 
     function addSetLabels(svg) {
@@ -335,14 +404,32 @@
           showTooltip(tooltipHtml(entry, areaData));
           moveTooltipFromEvent(d3.event);
         })
-        .on("mousemove", function(areaData) {
+        .on("mousemove", function() {
           moveTooltipFromEvent(d3.event);
         })
         .on("mouseout", function() {
           d3.select(this).select("path")
             .style("fill-opacity", null)
             .style("stroke-width", null);
+          hideTooltip();
+        })
+        .on("touchstart", function(areaData) {
+          d3.event.preventDefault();
+          d3.select(this).select("path")
+            .style("fill-opacity", 0.5)
+            .style("stroke-width", 3);
 
+          showTooltip(tooltipHtml(entry, areaData));
+          moveTooltipFromEvent(d3.event.touches ? d3.event.touches[0] : d3.event);
+        })
+        .on("touchmove", function() {
+          const evt = d3.event.touches ? d3.event.touches[0] : d3.event;
+          moveTooltipFromEvent(evt);
+        })
+        .on("touchend", function() {
+          d3.select(this).select("path")
+            .style("fill-opacity", null)
+            .style("stroke-width", null);
           hideTooltip();
         });
     }
@@ -352,9 +439,11 @@
 
       d3.select("#venn").selectAll("svg").remove();
 
+      const size = getChartSize();
+
       const chart = venn.VennDiagram()
-        .width(960)
-        .height(680);
+        .width(size.width)
+        .height(size.height);
 
       const container = d3.select("#venn");
       container.datum(sets).call(chart);
@@ -392,6 +481,10 @@
       const nextValue = Math.min(timelineData.length - 1, Number(slider.value) + 1);
       slider.value = String(nextValue);
       renderAt(nextValue);
+    });
+
+    window.addEventListener("resize", function() {
+      renderAt(Number(slider.value));
     });
 
     renderAt(0);
