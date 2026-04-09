@@ -202,7 +202,7 @@
     };
 
     const activeCategories = new Set(categories);
-    let mode = "absolute"; // "absolute" | "gain"
+    let mode = "absolute";
 
     function regionKey() {
       return Array.from(arguments).join("_");
@@ -269,11 +269,11 @@
       if (hasB) total += bOnly;
       if (hasC) total += cOnly;
 
-      if (hasA && hasB) total += abOnly;
-      if (hasA && hasC) total += acOnly;
-      if (hasB && hasC) total += bcOnly;
+      if (hasA || hasB) total += abOnly;
+      if (hasA || hasC) total += acOnly;
+      if (hasB || hasC) total += bcOnly;
 
-      if (hasA && hasB && hasC) total += abc;
+      if (hasA || hasB || hasC) total += abc;
 
       return total;
     }
